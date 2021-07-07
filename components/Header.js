@@ -11,12 +11,12 @@ export default function Header() {
 
 const styles = StyleSheet.create({
     main: {
-        paddingTop: 50, // внутренний отступ сверху
-        height: 100,// высота объекта
+        paddingTop: 50,
+        height: 100,
         backgroundColor: 'red'
     },
     text: {
-        fontSize: 30, // размер шрифта
+        fontSize: 30, 
         color: 'black',
         fontWeight: 'bold',
         textAlign: 'center'
