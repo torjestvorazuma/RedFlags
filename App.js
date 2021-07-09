@@ -10,19 +10,29 @@ const Stack = createStackNavigator();
 import Header from './components/Header';
 import HomeScreen from './HomeScreen';
 import ResearchScreen from './ResearchScreen';
+import CourtsScreen from './CourtsScreen';
+import TaxesScreen from './TaxesScreen';
 
 class App extends React.Component {
   render() {
     return (
-      <NavigationContainer>
+      <NavigationContainer style = {styles.navigation}>
         <Stack.Navigator>
           <Stack.Screen
-            name="Home"
+            name = "Home"
             component={HomeScreen}
           />
           <Stack.Screen
             name="Research"
             component={ResearchScreen}
+          />
+          <Stack.Screen
+            name="Courts"
+            component={CourtsScreen}
+          />
+          <Stack.Screen
+            name="Taxes"
+            component={TaxesScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
@@ -32,6 +42,9 @@ class App extends React.Component {
 
 
 const styles = StyleSheet.create({
-
+    navigaton: {
+      backgroundColor: '#77dd77',
+      color: 'red'
+    }
 });
 export default App;

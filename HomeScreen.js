@@ -6,38 +6,47 @@ import Header from './components/Header';
 class HomeScreen extends React.Component {
   render() {
     return (
-      <View >
+      <View style={styles.background}>
         <Header />
         <Text style={styles.head}>Проверь надежность компании!</Text>
         <TextInput style={styles.input} placeholder='Введите ИНН' />
         <Button title="Найти" onPress={() => this.props.navigation.navigate('Research')} />
-      </View >
+      </View>
     );
   }
 }
 
 
 const styles = StyleSheet.create({
+
+  background: {
+    backgroundColor: '#fff', 
+    height: '100%'
+  },
+
   head: {
-    fontSize: 15,
+    fontSize: 20,
     paddingTop: 10,
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: 'grey',
+    paddingTop: '50%'
   },
   input: {
-    fontSize: 15,
-    paddingTop: 250,
+    fontSize: 18,
+    paddingTop: '10%',
     borderBottomWidth: 1,
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginHorizontal: '30%',
+    borderBottomColor: 'grey'
   },
   button: {
     fontSize: 15,
     paddingTop: 30,
     textAlign: 'center',
     width: '80%',
-    marginLeft: '10%',
-    backgroundColor: '#ceffbc'
+    marginLeft: '10%'
   }
 
 });
