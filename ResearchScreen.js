@@ -23,14 +23,15 @@ class ResearchScreen extends React.Component {
   render(){
     const score = this.state.score;
 
-    const { inn } = this.props.route.params;
+    const { inn, finalBusinessData } = this.props.route.params;
     
     return (
       
       <View style={styles.background}>
+        
         <Header />
         
-        <Text style={styles.title}>{}</Text>
+        <Text style={styles.title}>{finalBusinessData.vyp.НаимЮЛСокр}</Text>
         <Text style={styles.head}>ИНН: {inn}</Text>
         <Text style={styles.head}>Директор: {}</Text>
         <Text style={styles.head}>Адрес: {}</Text>
