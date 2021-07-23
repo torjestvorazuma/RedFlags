@@ -1,12 +1,10 @@
 import 'react-native-gesture-handler';
 
 import React, { useState } from 'react';
-import {parseDataJSON, parseDataURL} from './Parser'
 import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-//const Stack = createStackNavigator();
 import Header from './components/Header';
 
 class ResearchScreen extends React.Component {
@@ -16,97 +14,159 @@ class ResearchScreen extends React.Component {
   }
 
   state = {
-    score: 80,
-    scoreColor: 'black'
+    scoreColor: 'black',
+    addressColor: '#006400',
+    bookkeepingColor: '#006400',
+    arbitrColor: '#006400',
+    nalogColor: '#006400'
   }
 
   render(){
-    const score = this.state.score;
-
-    const { inn, finalBusinessData } = this.props.route.params;
+    const {inn, finalData, adressData, arbitrData, FSSPData, bookkeepingData} = this.props.route.params;
     
+    let OKVED = '';
+
+    let addressColor =  '#006400';
+    let bookkeepingColor = '#006400';
+    let arbitrColor =  '#006400' ;        //'#008000';
+    let nalogColor =  '#006400';
+
+    if(adressData.Count > 5){
+      addressColor = '#FF8C00';  // #FFB347 - старый оранжевый
+    }
+
+    let profit = 0;
+    if(!bookkeepingData){
+      bookkeepingColor =  '#FF8C00';
+    }
+    else if(bookkeepingData[`${Object.keys(bookkeepingData)[0]}`]['2020']['2400']){
+      profit = bookkeepingData[`${Object.keys(bookkeepingData)[0]}`]['2020']['2400'];
+    }
+
+    let defendantAmount = 0;
+    
+    let plaintiffData = arbitrData.result.Истец;
+    let defendantData = arbitrData.result.Ответчик;
+    let thirdPartyData = arbitrData.result.ИноеЛицо;
+
+    if(defendantData){
+      
+    }
+    let plantiffCount = 0;
+    let allCasesCount = 0;
+
+    if(plaintiffData){
+        for(let i = 0; i < Object.keys(plaintiffData).length; i++){
+          plantiffCount++;
+        }
+    }
+
+    if(arbitrData){
+      if(plaintiffData){
+        for(let i = 0; i < Object.keys(plaintiffData).length; i++){
+          allCasesCount++;
+        }
+      }
+
+      if(defendantData){
+        for(let i = 0; i < Object.keys(defendantData).length; i++){
+          allCasesCount++;
+        }
+      }
+
+      if(thirdPartyData){
+        for(let i = 0; i < Object.keys(thirdPartyData).length; i++){
+          allCasesCount++;
+        }
+      }
+    }
+
+    if(plantiffCount/allCasesCount >= 0.7){
+      arbitrColor = '#FF8C00';
+    }
+
+  
+    if(defendantData){
+      for(let i = 0; i < Object.keys(defendantData).length; i++){
+        defendantAmount = defendantAmount + defendantData[Object.keys(defendantData)[i]].Сумма;
+      }
+    }
+
+    if(defendantAmount/profit >= 0.7){
+      arbitrColor = '#B22222';
+    }
+
+    let remainingCredit = 0;
+
+    if(FSSPData){
+      for (key in  FSSPData[`${inn}`]) {
+        remainingCredit = remainingCredit +  FSSPData[`${inn}`][key]['Остаток'];
+      }
+    }
+   
+
+    if(remainingCredit > 25000){
+      nalogColor = '#FF8C00';
+    }
+
+    if(remainingCredit > 65000){
+      nalogColor = '#B22222';
+    }
+    
+
+
+    try{
+      if(finalData.items[0].ЮЛ.ОснВидДеят.Текст){
+        OKVED = finalData.items[0].ЮЛ.ОснВидДеят.Текст;
+      }
+    }
+    catch(e){
+      OKVED = 'отсутсвует'
+    }
+    
+    this.checkCriteriaAndSetColors(adressData);
+
     return (
       
       <View style={styles.background}>
-        
-        <Header />
-        
-        <Text style={styles.title}>{finalBusinessData.vyp.НаимЮЛСокр}</Text>
-        <Text style={styles.head}>ИНН: {inn}</Text>
-        <Text style={styles.head}>Директор: {}</Text>
-        <Text style={styles.head}>Адрес: {}</Text>
-
-        <Text style={[styles.score, { color: this.state.scoreColor }]}>{score}/100</Text>
-
-        <View style={[styles.category, { backgroundColor: this.state.scoreColor }]}>
-          <Button title="СУДЕБНАЯ НАГРУЗКА" color='#fff' fontWeight='bold' onPress={() => this.props.navigation.navigate('Courts')} />
-
+        <Text style={styles.headName}> {finalData.items[0].ЮЛ.НаимСокрЮЛ}</Text>  
+        <Text style={styles.head}>Статус: {finalData.items[0].ЮЛ.Статус}                         ИНН: {inn}</Text>  
+        <Text style={styles.head}>Дата регистрации: {finalData.items[0].ЮЛ.ДатаРег}            КПП: {finalData.items[0].ЮЛ.КПП}</Text>
+        <Text style={styles.head}>                                                               ОГРН: {finalData.items[0].ЮЛ.ОГРН}</Text>
+        <Text style={styles.head}>Основной вид деятельности: {OKVED}</Text>
+        <Text style={styles.head}>Руководитель: {finalData.items[0].ЮЛ.Руководитель.ФИОПолн}</Text>
+        <Text style={styles.head}>Адрес: {finalData.items[0].ЮЛ.Адрес.АдресПолн}</Text>
+       
+        <View style={[styles.category, { backgroundColor: addressColor }]}>
+          <Button title="МАССОВОСТЬ АДРЕСА" color="#fff" fontWeight='bold' onPress={() => this.props.navigation.navigate('Adress',{inn: this.state.INN,finalData: finalData, adressData: adressData})} />
         </View>
-
-        <View style={[styles.category, { backgroundColor: this.state.scoreColor }]}>
-          <Button title="БАНКРОТСТВО" color="#fff" fontWeight='bold' onPress={() => this.props.navigation.navigate('Taxes')} />
+        <View style={[styles.category, { backgroundColor: bookkeepingColor}]}>
+          <Button title="БУХГАЛТЕРИЯ" color="#fff" fontWeight='bold' onPress={() => this.props.navigation.navigate('Bookkeeping', {inn: inn, bookkeepingData: bookkeepingData})} />
         </View>
-
+        <View style={[styles.category, { backgroundColor: nalogColor }]}>
+          <Button title="ЗАДОЛЖЕННОСТИ" color="#fff" fontWeight='bold' onPress={() => this.props.navigation.navigate('Debt',{inn: inn, FSSPData: FSSPData})} />
+        </View>
+        <View style={[styles.category, { backgroundColor: arbitrColor }]}>
+          <Button title="СУДЕБНАЯ НАГРУЗКА" color='#fff' fontWeight='bold' onPress={() => this.props.navigation.navigate('Courts',{inn: this.state.INN,arbitrData: arbitrData})} />
+        </View>
+        <View style={[styles.category, {  backgroundColor: '#778899' }]}>
+          <Button title="ПОЛУЧИТЬ ОТЧЕТ" color="#fff" fontWeight='bold' onPress={() => this.props.navigation.navigate('PDF',{inn: inn})} />
+        </View>
+        <View style={[styles.category, {  backgroundColor: '#778899' }]}>
+          <Button title="CПРАВКА" color="#fff" fontWeight='bold' onPress={() => this.props.navigation.navigate('Reference')} />
+        </View>
       </View>
-
     );
   }
 
-  increment = () => {
-    this.setState({
-      score: this.state.score + 1,
-    })
-    if (25 >= this.state.score < 74) {
-      this.setState({
-        scoreColor: '#FFB347'
-      })
-    }
-    if (this.state.score >= 74) {
-      this.setState({
-        scoreColor: '#77dd77'
-      })
-    }
-    if (this.state.score < 25) {
-      this.setState({
-        scoreColor: '#FF6961'
-      })
-    }
+  checkCriteriaAndSetColors = (adressData = {}) => { 
+    
   }
-
-
-
-  decrement = () => {
-    this.setState({
-      score: this.state.score - 1,
-    })
-
-    if (25 <= this.state.score <= 75) {
-      this.setState({
-        scoreColor: '#FFB346'
-      })
-    }
-
-    if (this.state.score > 75) {
-      this.setState({
-        scoreColor: '#77dd77'
-      })
-    }
-    if (this.state.score < 27) {
-      this.setState({
-        scoreColor: '#FF6961'
-      })
-    }
-  }
-
 }
 
-
-//<Button title="Вернуться назад" onPress={() => this.props.navigation.navigate('Home')} />
-
 const styles = StyleSheet.create({
-
   background: {
-    backgroundColor: '#fff',
+    backgroundColor: '#F8F8FF',
     height: '100%'
   },
 
@@ -131,7 +191,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold'
   },
-
+  headName: {
+    fontSize: 27,
+    paddingTop: 10,
+    textAlign: 'center',
+    fontWeight: 'bold'
+  },
   button: {
     fontSize: 15,
     paddingTop: 30,
@@ -140,6 +205,7 @@ const styles = StyleSheet.create({
     marginLeft: '10%',
     backgroundColor: '#ceffbc'
   },
+
   progress: {
     margin: 10,
   },
@@ -153,12 +219,14 @@ const styles = StyleSheet.create({
 
   category: {
     marginHorizontal: '10%',
+    justifyContent: 'center',
     textAlign: 'left',
-
+    borderRadius: 15,
     fontWeight: 'bold',
-    marginTop: '5%',
+    marginTop: '6%',
+    width: '80%',
+    height: '7%'
 
   }
-
 });
 export default ResearchScreen;

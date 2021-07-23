@@ -1,136 +1,127 @@
-
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, Image } from 'react-native';
 import Header from './components/Header';
-import {makeHttpRequestJSON} from './Parser.js'
 
-//variables to hold parsed data
-let firstToken;
-let initialBusinessDataJSON;
-let id;
-let secondToken;
-let secondRequestDataJSON;
-let finalBusinessDataJSON;
+const API_FNS_KEY = '252dffd2565f4318d5b19b08337d2a315c028fa5';
+const API_ARBITR_KEY = 'f4db1d9e4e66dc74b3f62d4c076aced4fcfc715a';
+const API_FSSP_KEY = 'a445ee2e028fc7eb9b9ea2a57925bc0f7148bce3';
 
-
+let finalDataJSON;
+let finalAdressDataJSON;
+let finalFSSPDataJSON;
+//INN EXAMPLE: 8602302853
+//7605016030
 class HomeScreen extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
       INN: '',
-    };
-    
+    };  
   }
+//1600 баланс
+
+//2110 выручка
+
+//2400 чистая прибыль
+
+//2120 расходы по обыч деятельности
+
+//2350 прочие расходы
+
+//2340 прочие доходы
+
+  onPress = async () => {
+    try {
+    const finalDataJSON = await this.gettingInformationCompany();
+    const finalAdressDataJSON = await this.gettingInformationAboutAdress();
+    const finalArbitrDataJSON = await this.gettingInformationAboutArbitr();
+    const finalFSSPDataJSON = await this.gettingInformationAboutFSSP();
+    const bookkeepingData = await this.gettingBookkeepingData();
+    if (finalDataJSON) {
+      this.props.navigation.navigate("Research",{
+        inn: this.state.INN,
+        finalData: finalDataJSON,
+        adressData: finalAdressDataJSON,
+        arbitrData: finalArbitrDataJSON,
+        FSSPData: finalFSSPDataJSON,
+        bookkeepingData: bookkeepingData
+      });
+    } else {
+      this.setState({error: 'NullPointException'});
+    }
+  } catch(e) {
+    this.setState({error: 'Запрос обломился'})
+  }
+  
+ 
+};
 
   render() {
     //On button press load data from website and pass values to next screen
+    const {error, INN} = this.state;
     return (
       <View style={styles.background}>
-        <Header />
-        <Text style={styles.head}>Проверь надежность компании!{this.state.INN}</Text>
+        <Image style={styles.imagine} source={require('./components/pic.png')}/>
+        <Text style={styles.head}>Проверь благонадежность компании</Text>
         <TextInput style={styles.input} placeholder='Введите ИНН' onChangeText={INN => this.setState({INN})}/>
-        <Button title="Найти" onPress={() => {this.loadInitialBusinessData(),this.props.navigation.navigate('Research',{inn: this.state.INN, finalBusinessData: finalBusinessDataJSON})}} /> 
+        <Button title="Найти" onPress={this.onPress}  /> 
+        {error ? <Text>{error}</Text> : null}
       </View>
     );
   }
 
-  //Three nested fetch() requests, copying three http requests made to access data on the website. 1st to get 1st token. 2nd to get id and second token. 3rd to retrieve final data.
-  loadInitialBusinessData = async ()  => {
-    const requestFirstToken = `page=1&pageSize=10&pbCaptchaToken=&token=&mode=search-all&queryAll=${this.state.INN}&queryUl=&okvedUl=&statusUl=&regionUl=&isMspUl=&mspUl1=1&mspUl2=2&mspUl3=3&queryIp=&okvedIp=&statusIp=&regionIp=&isMspIp=&mspIp1=1&mspIp2=2&mspIp3=3&queryUpr=&uprType1=1&uprType0=1&queryRdl=&dateRdl=&queryAddr=&regionAddr=&queryOgr=&ogrFl=1&ogrUl=1&npTypeDoc=1&ogrnUlDoc=&ogrnIpDoc=&nameUlDoc=&nameIpDoc=&formUlDoc=&formIpDoc=&ifnsDoc=&dateFromDoc=&dateToDoc=`;
-   
-    const result = await makeHttpRequestJSON('https://pb.nalog.ru/search-proc.json', requestFirstToken)
-        .then((data) => {
-          return data;
-      }).then(function(json){
-        initialBusinessDataJSON = json;
-      }).then(() =>{
-        console.log("FIRST");
-        console.log(initialBusinessDataJSON);
-        firstToken = initialBusinessDataJSON.ul.data[0].token;
-        console.log(firstToken);
-        /*
-        *
-        * END OF REQUEST ONE
-        * 
-        */
-        return fetch('https://pb.nalog.ru/company-proc.json', {method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'include', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-          'cookie' : '_ym_uid=1625468494103224867; _ym_d=1625468494; _ym_isad=2; pb-compare-inn-list=""; _ym_visorc=b; JSESSIONID=7DB23A281F0665975BFD27C4F9043AAD;'
-          
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: `token=${firstToken}&method=get-request`});
-      }).then((response) => {
-        return response.json();
-      }).then((data) => {
-        return data;
-      }).then(function(json){
-        secondRequestDataJSON = json;
-      }).then(() =>{
-        console.log("SECOND");
-        secondToken = secondRequestDataJSON.token;
-        console.log(secondToken);
-        id = secondRequestDataJSON.id;
-        console.log(id);
-        console.log(secondRequestDataJSON);
-        /*
-        *
-        * END OF REQUEST TWO
-        * 
-        */
-        return fetch('https://pb.nalog.ru/company-proc.json', {method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, *cors, same-origin
-        cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: 'include', // include, *same-origin, omit
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-          'cookie' : '_ym_uid=1625468494103224867; _ym_d=1625468494; _ym_isad=2; pb-compare-inn-list=""; _ym_visorc=b; JSESSIONID=7DB23A281F0665975BFD27C4F9043AAD'
-          
-        },
-        redirect: 'follow', // manual, *follow, error
-        referrerPolicy: 'no-referrer', // no-referrer, *client
-        body: `token=${secondToken}&id=${id}&method=get-response`});
-      }).then((response) => {
-        return response.json();
-      }).then((data) => {
-        return data;
-      }).then(function(json){
-        finalBusinessDataJSON = json;
-      }).then(() =>{
-        console.log("THIRD")
-        console.log(finalBusinessDataJSON);
-        /*
-        *
-        * END OF REQUEST THREE
-        * 
-        */
-      });
-    
-      //INN EXAMPLE: 8602302853
-  }
-  
+  gettingInformationCompany = async () => {
+    const api_url = await fetch(`https://api-fns.ru/api/egr?req=${this.state.INN}&key=${API_FNS_KEY}`);
+    const finalDataJSON = await api_url.json();
+    //console.log(finalDataJSON);
+    return finalDataJSON;
+  };
+
+  gettingInformationAboutAdress = async () => {
+    const data = await this.gettingInformationCompany();
+    const api_url = await fetch(`https://api-fns.ru/api/search?q=${data.items[0].ЮЛ.Адрес.АдресПолн}&key=${API_FNS_KEY}`);
+    const DataJSON = await api_url.json();
+    //console.log(DataJSON);
+    return DataJSON;
+  };
+
+  gettingInformationAboutArbitr = async () => {
+    const api_url = await fetch(`https://damia.ru/api-arb/dela?q=${this.state.INN}&key=${API_ARBITR_KEY}`);
+    const DataArbitrJSON = await api_url.json();
+    //console.log(DataArbitrJSON);
+    return DataArbitrJSON;
+  };
+
+  gettingInformationAboutFSSP = async () => {
+    const api_url = await fetch(`https://damia.ru/api-fssp/isps?inn=${this.state.INN}&format=2&key=${API_FSSP_KEY}`);
+    const DataFSSPJSON = await api_url.json();
+    console.log(52,DataFSSPJSON);
+    return DataFSSPJSON;
+  };
+
+  gettingBookkeepingData = async () => {
+    const api_url = await fetch(`https://api-fns.ru/api/bo?req=${this.state.INN}&key=${API_FNS_KEY}`);
+    const DataBookkeeping = await api_url.json();
+    console.log(49,DataBookkeeping[`${Object.keys(DataBookkeeping)[0]}`]['2020']);
+    return DataBookkeeping;
+  };
 }
+
 
 const styles = StyleSheet.create({
 
   background: {
-    backgroundColor: '#fff', 
+    backgroundColor: '#F8F8FF', 
     height: '100%'
   },
 
   head: {
     fontSize: 20,
-    paddingTop: 10,
     textAlign: 'center',
     fontWeight: 'bold',
     color: 'grey',
-    paddingTop: '50%'
+    //paddingTop: '50%'
   },
   input: {
     fontSize: 18,
@@ -147,7 +138,31 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: '80%',
     marginLeft: '10%'
-  }
+  },
+  main: {
+    alignItems: 'center',
+    paddingTop: 2,
+    height: '4%',
+    backgroundColor: '#77dd77'//'#ceffbc'
+},
+text: {
+    fontSize: 25,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center'
+}, 
+imagine: {
+  //position: 'absolute',
+  //width: '50%',
+  //height: '50%',
+  //justifyContent: 'center',
+  //alignItems: 'center',
+  width: 425,
+  height: 300,
+  alignSelf:'center'
+  
+
+}
 
 });
 export default HomeScreen;

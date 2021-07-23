@@ -1,3 +1,4 @@
+
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
@@ -12,6 +13,11 @@ import HomeScreen from './HomeScreen';
 import ResearchScreen from './ResearchScreen';
 import CourtsScreen from './CourtsScreen';
 import TaxesScreen from './TaxesScreen';
+import AdressScreen from './AdressScreen';
+import NalogScreen from './NalogScreen';
+import BookkeepingScreen from './BookkeepingScreen';
+import ReferenceScreen from './ReferenceScreen';
+import PDFScreen from './PDFScreen';
 
 class App extends React.Component {
   render() {
@@ -33,6 +39,26 @@ class App extends React.Component {
           <Stack.Screen
             name="Taxes"
             component={TaxesScreen}
+          />
+          <Stack.Screen
+            name="Adress"
+            component={AdressScreen}
+          />
+          <Stack.Screen
+            name="Debt"
+            component={NalogScreen}
+          />
+          <Stack.Screen
+            name="Bookkeeping"
+            component={BookkeepingScreen}
+          />
+        <Stack.Screen
+            name="Reference"
+            component={ReferenceScreen}
+          />
+          <Stack.Screen
+            name="PDF"
+            component={PDFScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

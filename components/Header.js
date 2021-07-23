@@ -12,12 +12,12 @@ export default function Header() {
 const styles = StyleSheet.create({
     main: {
         alignItems: 'center',
-        paddingTop: 10,
-        height: '8%',
-        backgroundColor: '#77dd77'//'#ceffbc'
+        paddingTop: 2,
+        height: '4%',
+        backgroundColor: 'black'//'#77dd77'//'#ceffbc'
     },
     text: {
-        fontSize: 35,
+        fontSize: 25,
         color: 'white',
         fontWeight: 'bold',
         textAlign: 'center'
