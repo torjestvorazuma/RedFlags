@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, Image } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, Image, ImageBackground } from 'react-native';
 import Header from './components/Header';
 
 const API_FNS_KEY = '252dffd2565f4318d5b19b08337d2a315c028fa5';
@@ -30,6 +30,7 @@ class HomeScreen extends React.Component {
 //2350 прочие расходы
 
 //2340 прочие доходы
+
 
   onPress = async () => {
     try {
@@ -62,11 +63,13 @@ class HomeScreen extends React.Component {
     const {error, INN} = this.state;
     return (
       <View style={styles.background}>
-        <Image style={styles.imagine} source={require('./components/pic.png')}/>
+        <ImageBackground style={ styles.imgBackground } source={require('./components/background1.png')}>
+        <Image style={styles.imagine} source={require('./components/mainpic.png')}/>
         <Text style={styles.head}>Проверь благонадежность компании</Text>
         <TextInput style={styles.input} placeholder='Введите ИНН' onChangeText={INN => this.setState({INN})}/>
-        <Button title="Найти" onPress={this.onPress}  /> 
+        <Button title="Найти" color="#5961AB"  onPress={this.onPress}  /> 
         {error ? <Text>{error}</Text> : null}
+        </ImageBackground>
       </View>
     );
   }
@@ -112,7 +115,7 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
 
   background: {
-    backgroundColor: '#F8F8FF', 
+    backgroundColor: '#F3F4F6', 
     height: '100%'
   },
 
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     fontWeight: 'bold',
-    color: 'grey',
+    color: 'black',
     //paddingTop: '50%'
   },
   input: {
@@ -162,7 +165,18 @@ imagine: {
   alignSelf:'center'
   
 
-}
+},
+imgBackground: {
+  flex: 1,
+  width: null,
+  height: null,
+  resizeMode: 'cover',
+  //justifyContent: "center",
+  //alignItems: "center",
+  //resizeMode: 'cover',
+  //top: 0,
+  //opacity: 0.7
+},
 
 });
 export default HomeScreen;

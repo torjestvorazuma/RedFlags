@@ -15,10 +15,10 @@ class ResearchScreen extends React.Component {
 
   state = {
     scoreColor: 'black',
-    addressColor: '#006400',
-    bookkeepingColor: '#006400',
-    arbitrColor: '#006400',
-    nalogColor: '#006400'
+    addressColor: '#00A458',
+    bookkeepingColor: '#00A458',
+    arbitrColor: '#00A458',
+    nalogColor: '#00A458'
   }
 
   render(){
@@ -26,18 +26,18 @@ class ResearchScreen extends React.Component {
     
     let OKVED = '';
 
-    let addressColor =  '#006400';
-    let bookkeepingColor = '#006400';
-    let arbitrColor =  '#006400' ;        //'#008000';
-    let nalogColor =  '#006400';
+    let addressColor =  '#00A458';
+    let bookkeepingColor = '#00A458';
+    let arbitrColor =  '#00A458' ;        //'#008000';
+    let nalogColor =  '#00A458';
 
     if(adressData.Count > 5){
-      addressColor = '#FF8C00';  // #FFB347 - старый оранжевый
+      addressColor = '#FE934B';  // #FF8C00 - старый оранжевый
     }
 
     let profit = 0;
     if(!bookkeepingData){
-      bookkeepingColor =  '#FF8C00';
+      bookkeepingColor = '#FE934B';
     }
     else if(bookkeepingData[`${Object.keys(bookkeepingData)[0]}`]['2020']['2400']){
       profit = bookkeepingData[`${Object.keys(bookkeepingData)[0]}`]['2020']['2400'];
@@ -82,7 +82,7 @@ class ResearchScreen extends React.Component {
     }
 
     if(plantiffCount/allCasesCount >= 0.7){
-      arbitrColor = '#FF8C00';
+      arbitrColor = '#FE934B';
     }
 
   
@@ -93,7 +93,7 @@ class ResearchScreen extends React.Component {
     }
 
     if(defendantAmount/profit >= 0.7){
-      arbitrColor = '#B22222';
+      arbitrColor = '#FF5656'; // B22222 старый красный цвет
     }
 
     let remainingCredit = 0;
@@ -106,11 +106,11 @@ class ResearchScreen extends React.Component {
    
 
     if(remainingCredit > 25000){
-      nalogColor = '#FF8C00';
+      nalogColor = '#FE934B';
     }
 
     if(remainingCredit > 65000){
-      nalogColor = '#B22222';
+      nalogColor = '#FF5656';
     }
     
 
@@ -130,9 +130,11 @@ class ResearchScreen extends React.Component {
       
       <View style={styles.background}>
         <Text style={styles.headName}> {finalData.items[0].ЮЛ.НаимСокрЮЛ}</Text>  
-        <Text style={styles.head}>Статус: {finalData.items[0].ЮЛ.Статус}                         ИНН: {inn}</Text>  
-        <Text style={styles.head}>Дата регистрации: {finalData.items[0].ЮЛ.ДатаРег}            КПП: {finalData.items[0].ЮЛ.КПП}</Text>
-        <Text style={styles.head}>                                                               ОГРН: {finalData.items[0].ЮЛ.ОГРН}</Text>
+        <Text style={styles.head}>Статус: {finalData.items[0].ЮЛ.Статус}</Text>  
+        <Text style={styles.head}>Дата регистрации: {finalData.items[0].ЮЛ.ДатаРег}</Text>
+        <Text style={styles.head}>ИНН: {inn}</Text>  
+        <Text style={styles.head}>ОГРН: {finalData.items[0].ЮЛ.ОГРН}</Text>
+        <Text style={styles.head}>КПП: {finalData.items[0].ЮЛ.КПП}</Text>  
         <Text style={styles.head}>Основной вид деятельности: {OKVED}</Text>
         <Text style={styles.head}>Руководитель: {finalData.items[0].ЮЛ.Руководитель.ФИОПолн}</Text>
         <Text style={styles.head}>Адрес: {finalData.items[0].ЮЛ.Адрес.АдресПолн}</Text>
@@ -149,10 +151,10 @@ class ResearchScreen extends React.Component {
         <View style={[styles.category, { backgroundColor: arbitrColor }]}>
           <Button title="СУДЕБНАЯ НАГРУЗКА" color='#fff' fontWeight='bold' onPress={() => this.props.navigation.navigate('Courts',{inn: this.state.INN,arbitrData: arbitrData})} />
         </View>
-        <View style={[styles.category, {  backgroundColor: '#778899' }]}>
+        <View style={[styles.category, {  backgroundColor: '#5961AB' }]}>
           <Button title="ПОЛУЧИТЬ ОТЧЕТ" color="#fff" fontWeight='bold' onPress={() => this.props.navigation.navigate('PDF',{inn: inn})} />
         </View>
-        <View style={[styles.category, {  backgroundColor: '#778899' }]}>
+        <View style={[styles.category, {  backgroundColor: '#5961AB' }]}>
           <Button title="CПРАВКА" color="#fff" fontWeight='bold' onPress={() => this.props.navigation.navigate('Reference')} />
         </View>
       </View>
@@ -166,14 +168,15 @@ class ResearchScreen extends React.Component {
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: '#F8F8FF',
+    backgroundColor: '#F3F4F6',
     height: '100%'
   },
 
   head: {
     fontSize: 15,
-    paddingTop: 10,
-    textAlign: 'center',
+    paddingTop: 7,
+    paddingLeft: 5,
+    textAlign: 'left',
     fontWeight: 'bold'
   },
 
@@ -192,14 +195,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   headName: {
+    backgroundColor: '#5961AB',
     fontSize: 27,
     paddingTop: 10,
+    color: 'white',
     textAlign: 'center',
     fontWeight: 'bold'
   },
   button: {
-    fontSize: 15,
-    paddingTop: 30,
+    fontSize: 10,
+    paddingTop: 20,
     textAlign: 'center',
     width: '80%',
     marginLeft: '10%',
@@ -223,7 +228,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     borderRadius: 15,
     fontWeight: 'bold',
-    marginTop: '6%',
+    marginTop: '5%',
     width: '80%',
     height: '7%'
 

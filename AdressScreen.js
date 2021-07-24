@@ -22,8 +22,10 @@ class AdressScreen extends React.Component {
     adressData.items.forEach(function(obj) {adresses.push(obj.ЮЛ.НаимСокрЮЛ)})
     
     return (
+   
       
        <View style = {styles.container}> 
+       <Text style={styles.headName}>МАССОВОСТЬ АДРЕСА</Text>  
         <Text style = {styles.head}>Компании, зарегистрированные на данный адрес: </Text>
         <ScrollView>
           {
@@ -36,6 +38,7 @@ class AdressScreen extends React.Component {
             })
           }
         </ScrollView>
+      
       </View>
     );
   }
@@ -57,9 +60,9 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    paddingTop: 40,
-    paddingHorizontal: 20, 
-    backgroundColor: '#F8F8FF',
+    //paddingTop: 40,
+    //paddingHorizontal: 20, 
+    backgroundColor: '#F3F4F6',
   },
 
   item: {
@@ -79,6 +82,14 @@ const styles = StyleSheet.create({
   stylehead: {
     fontSize: 15,
     paddingTop: 10,
+    textAlign: 'center',
+    fontWeight: 'bold'
+  },
+  headName: {
+    backgroundColor: '#5961AB',
+    fontSize: 27,
+    paddingTop: 10,
+    color: 'white',
     textAlign: 'center',
     fontWeight: 'bold'
   },

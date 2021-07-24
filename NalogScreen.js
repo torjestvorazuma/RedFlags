@@ -12,6 +12,8 @@ import HomeScreen from './HomeScreen';
 
 let InNumber;
 
+//<Text style = {styles.head}>Сумма "Задолженность":  {NalogDebt}₽</Text>
+//<Text style = {styles.head}>Сумма "Взыскание налогов и сборов, включая пени":  {NalogNalog}₽</Text>
 class NalogScreen extends React.Component {
   
   state = {
@@ -48,9 +50,9 @@ class NalogScreen extends React.Component {
             this.displayFSSPData(ListData)
             }
           </ScrollView>
+          <Text style = {styles.head}>Общая сумма задолженности:  {NalogAmount}₽</Text>
           <Text style = {styles.head}>Общая сумма непогашенной задолженности:  {NalogBalance}₽</Text>
-          <Text style = {styles.head}>Сумма "Задолженность":  {NalogDebt}₽</Text>
-          <Text style = {styles.head}>Сумма "Взыскание налогов и сборов, включая пени":  {NalogNalog}₽</Text>
+          
         </View>
         </ScrollView>
       </View>
@@ -60,9 +62,11 @@ class NalogScreen extends React.Component {
   getNalogCount =  (FSSPData) => {
     let count = 0;
     for (key in  FSSPData[`${InNumber}`]){
+      if (FSSPData[`${InNumber}`][key]['Статус'] == 'Не завершено' ) {
         count++;
         //console.log(count);
-      } 
+      }
+    } 
     //console.log(InNumber)
     //console.log('количество');
     //console.log(count);
@@ -73,7 +77,9 @@ class NalogScreen extends React.Component {
     let amount = 0;
     for (key in  FSSPData[`${InNumber}`]) {
       //console.log( FSSPData[`${InNumber}`][key]['Сумма']);
+      if (FSSPData[`${InNumber}`][key]['Статус'] == 'Не завершено' ){
       amount = amount +  FSSPData[`${InNumber}`][key]['Сумма'];
+      }
     }
   
   //console.log('итог');
@@ -133,6 +139,7 @@ class NalogScreen extends React.Component {
     if(ListData){
       return(
         Object.keys(ListData).map((item,i) => {
+          if(ListData[item]['Статус'] == 'Не завершено')
           return(
             <View key = {i}>
               <Text style = {styles.item}>{item} {'\n'}Дата: {ListData[item]['Дата']}{'\n'}Статус: {ListData[item]['Статус']} {'\n'}Предмет: {ListData[item]['Предмет']} {'\n'}Сумма: {ListData[item]['Сумма']}</Text>

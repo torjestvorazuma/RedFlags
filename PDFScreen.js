@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 
 import React, { useState } from 'react';
 
-import {View, Text, TextInput, Button, StyleSheet, Linking, Image} from 'react-native';
+import {View, Text, TextInput, Button, StyleSheet, Linking, Image, ImageBackground} from 'react-native';
 //import PDFView from 'react-native-view-pdf';
 //import { Page ,Document, PDFViewer } from 'react-native-web';
 import { NavigationContainer } from '@react-navigation/native';
@@ -38,12 +38,14 @@ class PDFScreen extends React.Component {
     
     
     return (
-      <View>
-      <Image style={styles.imagine} source={require('./components/pic.png')}/>
-      <Text style = {styles.headName}>Формирование различных отчетов</Text>
-      <View style={[styles.category, {  backgroundColor: '#778899' }]}>
+      <View style={styles.background}> 
+      <ImageBackground  style={styles.imgBackground } source={require('./components/background.png')}>
+      <Image style={styles.imagine} source={require('./components/mainpic.png')}/>
+      <Text style = {styles.headName}>Формирование отчетов</Text>
+      <View style={[styles.category, {  backgroundColor: '#5961AB' }]}>
           <Button title="ВЫПИСКА ИЗ ЕГРЮЛ" color='#fff' fontWeight='bold' onPress={() => Linking.openURL(`https://api-fns.ru/api/vyp?req=${InNumber}&key=${API_FNS_KEY}`)} />
-      </View>   
+      </View> 
+      </ImageBackground>  
       </View>  
     );
   }
@@ -54,7 +56,7 @@ class PDFScreen extends React.Component {
 const styles = StyleSheet.create({
 
   background: {
-    backgroundColor: '#F8F8FF',
+    backgroundColor: '#F3F4F6',
     height: '100%'
   },
 
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
     paddingTop: 10,
     textAlign: 'center',
-    color: 'grey',
+    color: 'black',
     fontWeight: 'bold'
   },
   category: {
@@ -93,8 +95,8 @@ const styles = StyleSheet.create({
       //height: '50%',
       //justifyContent: 'center',
       //alignItems: 'center',
-      width: '70%',
-      height: '20%',
+      width: 425,
+      height: 150,
       alignSelf:'center'
     
   },
@@ -108,7 +110,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 50,
     paddingVertical: 30,
     color: "#212121"
-  }
+  },
+  imgBackground: {
+    flex: 1,
+    width: null,
+    height: null,
+    //resizeMode: 'cover',
+    //justifyContent: "center",
+    //alignItems: "center",
+    //resizeMode: 'cover',
+    //top: 0,
+    //opacity: 0.7
+  },
 
 });
 export default PDFScreen;
