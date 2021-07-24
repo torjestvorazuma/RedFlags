@@ -11,7 +11,7 @@ import Header from './components/Header';
 import HomeScreen from './HomeScreen';
 
 const API_KEY = "252dffd2565f4318d5b19b08337d2a315c028fa5";
-
+let count;
 class AdressScreen extends React.Component {
   
   
@@ -20,13 +20,14 @@ class AdressScreen extends React.Component {
     const { inn, finalData, adressData } = this.props.route.params;
     const adresses = [];
     adressData.items.forEach(function(obj) {adresses.push(obj.ЮЛ.НаимСокрЮЛ)})
-    
+    count = adressData.Count;
     return (
    
       
        <View style = {styles.container}> 
        <Text style={styles.headName}>МАССОВОСТЬ АДРЕСА</Text>  
-        <Text style = {styles.head}>Компании, зарегистрированные на данный адрес: </Text>
+       <Text style={styles.result}>{this.displaData(count)} </Text>
+        <Text style = {styles.head}>Компании, зарегистрированные на данный адрес: {count} </Text>
         <ScrollView>
           {
             adresses.map((item,i) => {
@@ -54,12 +55,25 @@ class AdressScreen extends React.Component {
   loadAdresses(){
 
   }
+
+  displaData = (count) => {
+    if(count > 5){
+      return(
+        <Text>На этот адрес зарегистрировано более 5 компаний. Риск "фирмы однодневки".</Text>
+      )
+    } else {
+      return(
+        <Text>На этот адрес зарегистрировано менее 5 компаний. Риски не обнаружены.</Text>
+      )
+    }
+
+  }
 }
 
 const styles = StyleSheet.create({
 
   container: {
-    flex: 1,
+    //flex: 1,
     //paddingTop: 40,
     //paddingHorizontal: 20, 
     backgroundColor: '#F3F4F6',
@@ -68,12 +82,19 @@ const styles = StyleSheet.create({
   item: {
     marginTop: 24,
     padding: 30,
-    backgroundColor: "#ddd",
+    backgroundColor: "#B0BDC1", 
+    alignSelf: 'center',
+    width : '80%',
     fontSize: 24
   },
-
+  result: {
+    fontSize: 20, 
+    paddingTop: 10, 
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
   head: {
-    fontSize: 24,
+    fontSize: 20,
     
     textAlign: 'center',
     fontWeight: 'bold',
