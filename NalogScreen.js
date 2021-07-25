@@ -45,12 +45,11 @@ class NalogScreen extends React.Component {
         <ScrollView>
         <View style = {styles.delaContainer}>
           <Text style = {styles.head}>Количество незавершенных исполнительных производств: {NalogCount}</Text>
-          <ScrollView style = {{height: 500}}>
+          <ScrollView style = {{height: 200}}>
             {
             this.displayFSSPData(ListData)
             }
           </ScrollView>
-          <Text style = {styles.head}>Общая сумма задолженности:  {NalogAmount}₽</Text>
           <Text style = {styles.head}>Общая сумма непогашенной задолженности:  {NalogBalance}₽</Text>
           
         </View>
@@ -95,7 +94,7 @@ class NalogScreen extends React.Component {
     for (key in  FSSPData[`${InNumber}`]) {
       console.log( FSSPData[`${InNumber}`][key]['Остаток']);
       if (FSSPData[`${InNumber}`][key]['Статус'] == 'Не завершено' ) {
-      remains = remains +  FSSPData[`${InNumber}`][key]['Остаток'];
+        remains = remains +  FSSPData[`${InNumber}`][key]['Остаток'];
       }
     }
   

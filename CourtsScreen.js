@@ -79,8 +79,17 @@ class CourtsScreen extends React.Component {
     let count = 0;
 
     if(plaintiffData){
+      
       for(let i = 0; i < Object.keys(plaintiffData).length; i++){
-        count++;
+        let status = plaintiffData[Object.keys(plaintiffData)[i]].Статус.valueOf();
+        console.log(15,status);
+        console.log(29,typeof(status));
+        
+        if(status != "Рассмотрение дела завершено"){
+          console.log(13, plaintiffData[Object.keys(plaintiffData)[i]].Статус);
+          count++;
+        }
+        
       }
     }
     return count;
@@ -91,7 +100,15 @@ class CourtsScreen extends React.Component {
   
     if(defendantData){
       for(let i = 0; i < Object.keys(defendantData).length; i++){
-        count++;
+        let status = defendantData[Object.keys(defendantData)[i]].Статус.valueOf();
+        console.log(15,status);
+        console.log(29,typeof(status));
+        
+        if(status != "Рассмотрение дела завершено"){
+          console.log(13, defendantData[Object.keys(defendantData)[i]].Статус);
+          count++;
+        }
+        
       }
     }
     return count;
@@ -102,7 +119,14 @@ class CourtsScreen extends React.Component {
     
     if(thirdPartyData){
       for(let i = 0; i < Object.keys(thirdPartyData).length; i++){
-        count++;
+        let status = thirdPartyData[Object.keys(thirdPartyData)[i]].Статус.valueOf();
+        console.log(15,status);
+        console.log(29,typeof(status));
+        
+        if(status != "Рассмотрение дела завершено"){
+          console.log(13, thirdPartyData[Object.keys(thirdPartyData)[i]].Статус);
+          count++;
+        }
       }
     }
     return count;
@@ -113,7 +137,14 @@ class CourtsScreen extends React.Component {
     
     if(plaintiffData){
       for(let i = 0; i < Object.keys(plaintiffData).length; i++){
-        amount = amount + plaintiffData[Object.keys(plaintiffData)[i]].Сумма;
+        let status = plaintiffData[Object.keys(plaintiffData)[i]].Статус.valueOf();
+        console.log(15,status);
+        console.log(29,typeof(status));
+        
+        if(status != "Рассмотрение дела завершено"){
+          amount = amount + plaintiffData[Object.keys(plaintiffData)[i]].Сумма;
+        }
+        
       }
     }
     amount = Number((amount).toFixed(2));
@@ -126,7 +157,14 @@ class CourtsScreen extends React.Component {
     //let defendantData = arbitrData.result.Ответчик;
     if(defendantData){
       for(let i = 0; i < Object.keys(defendantData).length; i++){
-        amount = amount + defendantData[Object.keys(defendantData)[i]].Сумма;
+        let status = defendantData[Object.keys(defendantData)[i]].Статус.valueOf();
+        console.log(15,status);
+        console.log(29,typeof(status));
+        
+        if(status != "Рассмотрение дела завершено"){
+          amount = amount + defendantData[Object.keys(defendantData)[i]].Сумма;
+        }
+        
       }
     }
    
@@ -137,16 +175,21 @@ class CourtsScreen extends React.Component {
     return amount;
   }
 
-  getTest(){
-    return (<Text>TEST</Text>)
-  }
+  
 
   getThirdPartyAmount(thirdPartyData = {}){
     let amount = 0;
     
     if(thirdPartyData){
       for(let i = 0; i < Object.keys(thirdPartyData).length; i++){
-        amount = amount + thirdPartyData[Object.keys(thirdPartyData)[i]].Сумма;
+        let status = thirdPartyData[Object.keys(thirdPartyData)[i]].Статус.valueOf();
+        console.log(15,status);
+        console.log(29,typeof(status));
+        
+        if(status != "Рассмотрение дела завершено"){
+          amount = amount + thirdPartyData[Object.keys(thirdPartyData)[i]].Сумма;
+        }
+       
       }
     }
     amount = Number((amount).toFixed(2));
@@ -158,11 +201,17 @@ class CourtsScreen extends React.Component {
     if(plaintiffData){
       return(
         Object.keys(plaintiffData).map((item,i) => {
-          return(
-            <View key = {i}>
-              <Text style = {styles.item} onPress={() => Linking.openURL(plaintiffData[Object.keys(plaintiffData)[i]].Url)}>{item}</Text>
-            </View>
-          )
+          let status = plaintiffData[Object.keys(plaintiffData)[i]].Статус.valueOf();
+          
+          if(status != "Рассмотрение дела завершено"){
+            return(
+              <View key = {i}>
+                <Text style = {styles.item} onPress={() => Linking.openURL(plaintiffData[Object.keys(plaintiffData)[i]].Url)}>{item}</Text>
+              </View>
+            )
+          }
+
+          
         })
       )
     }
@@ -177,7 +226,9 @@ class CourtsScreen extends React.Component {
     if(defendantData){
       return(
         Object.keys(defendantData).map((item,i) => {
-          if(defendantData[Object.keys(defendantData)[i]].Статус != 'Рассмотрение дела завершено'){
+          let status = defendantData[Object.keys(defendantData)[i]].Статус.valueOf();
+
+          if(status != "Рассмотрение дела завершено"){
             return(
               <View key = {i}>
                 <Text style = {styles.item} onPress={() => Linking.openURL(defendantData[Object.keys(defendantData)[i]].Url)}>{item}</Text>
@@ -198,11 +249,14 @@ class CourtsScreen extends React.Component {
     if(thirdPartyData){
       return(
         Object.keys(thirdPartyData).map((item,i) => {
-          return(
-            <View key = {i}>
-              <Text style = {styles.item} onPress={() => Linking.openURL(thirdPartyData[Object.keys(thirdPartyData)[i]].Url)}>{item}</Text>
-            </View>
-          )
+          let status = thirdPartyData[Object.keys(thirdPartyData)[i]].Статус.valueOf();
+          if(status != "Рассмотрение дела завершено"){
+            return(
+              <View key = {i}>
+                <Text style = {styles.item} onPress={() => Linking.openURL(thirdPartyData[Object.keys(thirdPartyData)[i]].Url)}>{item}</Text>
+              </View>
+            )
+          }
         })
       )
     }
