@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 
 import React, { useState } from 'react';
 
-import { StyleSheet, View, Text, TextInput, Button, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, ScrollView, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 import Header from './components/Header';
 import HomeScreen from './HomeScreen';
 
-const API_KEY = "252dffd2565f4318d5b19b08337d2a315c028fa5";
+const API_KEY = "5d1714f634e2768695e63f1423f9895569656403";
 let count;
 class AdressScreen extends React.Component {
   
@@ -27,7 +27,7 @@ class AdressScreen extends React.Component {
        <View style = {styles.container}> 
        <Text style={styles.headName}>МАССОВОСТЬ АДРЕСА</Text>  
        <Text style={styles.result}>{this.displaData(count)} </Text>
-        <Text style = {styles.head}>Компании, зарегистрированные на данный адрес: {count} </Text>
+        <Text style = {styles.head}>Количество компаний, зарегистрированных на данный адрес: {count} </Text>
         <ScrollView>
           {
             adresses.map((item,i) => {
@@ -59,7 +59,7 @@ class AdressScreen extends React.Component {
   displaData = (count) => {
     if(count > 5){
       return(
-        <Text>На этот адрес зарегистрировано более 5 компаний. Риск "фирмы однодневки".</Text>
+        <Text>На этот адрес зарегистрировано более 5 компаний. Риск "фирмы-однодневки".</Text>
       )
     } else {
       return(
@@ -73,8 +73,8 @@ class AdressScreen extends React.Component {
 const styles = StyleSheet.create({
 
   container: {
+    //marginTop: '10%',
     //flex: 1,
-    //paddingTop: 40,
     //paddingHorizontal: 20, 
     backgroundColor: '#F3F4F6',
   },
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   item: {
     marginTop: 24,
     padding: 30,
+    paddingTop: 20,
     backgroundColor: "#B0BDC1", 
     alignSelf: 'center',
     width : '80%',
@@ -94,8 +95,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   head: {
-    fontSize: 20,
-    
+    fontSize: 19,
+    paddingTop: 10,
     textAlign: 'center',
     fontWeight: 'bold',
     color: 'grey',
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
   headName: {
     backgroundColor: '#5961AB',
     fontSize: 27,
-    paddingTop: 10,
+    paddingTop: 26,
     color: 'white',
     textAlign: 'center',
     fontWeight: 'bold'

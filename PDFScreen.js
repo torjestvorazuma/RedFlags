@@ -17,7 +17,7 @@ import Header from './components/Header';
 import HomeScreen from './HomeScreen';
 
 
-const API_FNS_KEY = 'af30ef4a9d50f822fa878713aefd9913f3ea3825';
+const API_FNS_KEY = '5d1714f634e2768695e63f1423f9895569656403';
 let InNumber;
 
 
@@ -66,12 +66,10 @@ class PDFScreen extends React.Component {
       
         <Text>Cтатус: ${reportData.generalData.status.value}<Text style="color: ${reportData.generalData.status.reliability}">●\n</Text></Text>
         <br>
-
         <Text>Дата регистрации: ${reportData.generalData.date.value}\n<Text style="color: ${reportData.generalData.date.reliability}">●\n</Text></Text>
         <br>
         <Text>${reportData.generalData.date.message}\n</Text>
         <br>
-
         <Text>ИНН: ${reportData.generalData.inn}\n</Text><br>
         <Text>ОГРН: ${reportData.generalData.ogrn}\n</Text><br>
         <Text>КПП: ${reportData.generalData.kpp}\n</Text><br>
@@ -126,10 +124,13 @@ class PDFScreen extends React.Component {
       <ImageBackground  style={styles.imgBackground } source={require('./components/background.png')}>
       <Image style={styles.imagine} source={require('./components/mainpic.png')}/>
       <Text style = {styles.headName}>Формирование отчетов</Text>
-      <View style={[styles.category, {  backgroundColor: '#5961AB' }]}>
+      <View style={[styles.category, {  backgroundColor: '#00A458' }]}>
           <Button title="ВЫПИСКА ИЗ ЕГРЮЛ" color={defaultColorText} fontWeight='bold' onPress={() => Linking.openURL(`https://api-fns.ru/api/vyp?req=${InNumber}&key=${API_FNS_KEY}`)} />
       </View> 
-      <View style={[styles.category, {  backgroundColor: '#5961AB' }]}>
+      <View style={[styles.category, {  backgroundColor: '#00A458' }]}>
+          <Button title="БУХГАЛТЕРСКАЯ ОТЧЕТНОСТЬ" color={defaultColorText} fontWeight='bold' onPress={() => Linking.openURL(`https://api-fns.ru/api/bo_file?req=${InNumber}&xls=0&year=2020&key=${API_FNS_KEY}`)} />
+      </View> 
+      <View style={[styles.category, {  backgroundColor: '#00A458' }]}>
           <Button title="СФОРМИРОВАТЬ ОТЧЁТ" color={defaultColorText} fontWeight='bold' onPress={() => this.createAndSavePDF(htmlContent)} />
       </View> 
       </ImageBackground>  

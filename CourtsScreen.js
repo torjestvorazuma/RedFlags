@@ -40,7 +40,8 @@ class CourtsScreen extends React.Component {
    
 
     return (
-      <SafeAreaView style = {styles.container}>
+      <View style = {styles.container}>
+        <Text style={styles.headName}>СУДЕБНАЯ НАГРУЗКА</Text>  
         <View style = {styles.delaContainer}>
           <Text style = {styles.dela}>Дел в качестве истца:                                {plaintiffCount} </Text>
           <Text style = {styles.delaDetails}>Общая сумма:                                                       {plaintiffAmount}₽ </Text>
@@ -69,7 +70,7 @@ class CourtsScreen extends React.Component {
           }
         </ScrollView>
         </View>
-      </SafeAreaView>
+      </View>
         
       
     );
@@ -281,7 +282,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    //paddingHorizontal: 20,
     backgroundColor: '#F8F8FF', 
   },
 
@@ -312,6 +313,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: '10%',
     textAlign: 'left',
+    paddingHorizontal: 20,
     fontWeight: 'bold',
     color: 'grey',
   },
@@ -322,6 +324,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#ddd",
     fontSize: 15,
     textAlign: 'center'
+  },
+  headName: {
+    backgroundColor: '#5961AB',
+    fontSize: 27,
+    paddingTop: 26,
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
 
 });

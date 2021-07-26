@@ -41,9 +41,11 @@ class NalogScreen extends React.Component {
        //<Text>Количество исполнительных производств:        {NalogCount} </Text>
         //<Text>Общая сумма задолженности (в рублях):         {NalogAmount} </Text>
     return (
-      <SafeAreaView style = {styles.container}>
+      <View style = {styles.container}>
         <ScrollView>
+        <Text style={styles.headName}>ЗАДОЛЖЕННОСТИ</Text>  
         <View style = {styles.delaContainer}>
+
           <Text style = {styles.head}>Количество незавершенных исполнительных производств: {NalogCount}</Text>
           <ScrollView style = {{height: 200}}>
             {
@@ -54,7 +56,7 @@ class NalogScreen extends React.Component {
           
         </View>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     );
   }
 
@@ -181,14 +183,23 @@ const styles = StyleSheet.create({
     marginTop: 24,
     padding: 25,
     backgroundColor: "#ddd",
+    paddingHorizontal: 5,
     fontSize: 18,
     textAlign: 'center'
   },
   container: {
     flex: 1,
-    paddingTop: 5,
-    paddingHorizontal: 5,
+    //paddingTop: 5,
+    //paddingHorizontal: 5,
     backgroundColor: '#F8F8FF'
+  },
+  headName: {
+    backgroundColor: '#5961AB',
+    fontSize: 27,
+    paddingTop: 26,
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
 
 });
