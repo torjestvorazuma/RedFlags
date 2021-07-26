@@ -21,10 +21,11 @@ class AdressScreen extends React.Component {
     const adresses = [];
     adressData.items.forEach(function(obj) {adresses.push(obj.ЮЛ.НаимСокрЮЛ)})
     count = adressData.Count;
+    
     return (
    
       
-       <View style = {styles.container}> 
+       <SafeAreaView style = {styles.container}> 
        <Text style={styles.headName}>МАССОВОСТЬ АДРЕСА</Text>  
        <Text style={styles.result}>{this.displaData(count)} </Text>
         <Text style = {styles.head}>Количество компаний, зарегистрированных на данный адрес: {count} </Text>
@@ -40,7 +41,7 @@ class AdressScreen extends React.Component {
           }
         </ScrollView>
       
-      </View>
+      </SafeAreaView>
     );
   }
   

@@ -24,7 +24,7 @@ class NalogScreen extends React.Component {
   render() {
 
     const score = this.state.score;
-    const {inn,FSSPData} = this.props.route.params;
+    const {inn, FSSPData, nalogMessage} = this.props.route.params;
 
     InNumber = inn;
     const num = InNumber;
@@ -41,28 +41,33 @@ class NalogScreen extends React.Component {
        //<Text>Количество исполнительных производств:        {NalogCount} </Text>
         //<Text>Общая сумма задолженности (в рублях):         {NalogAmount} </Text>
     return (
-      <View style = {styles.container}>
-        <ScrollView>
-        <Text style={styles.headName}>ЗАДОЛЖЕННОСТИ</Text>  
+      <SafeAreaView style = {styles.container}>
+        <Text style={styles.headName}>ЗАДОЛЖЕННОСТИ</Text> 
+        <View style = {styles.messageContainer}>
+          <Text style={styles.message}>{nalogMessage}</Text> 
+        </View>
+        
+         
         <View style = {styles.delaContainer}>
 
+          <Text style = {styles.head}>Общая сумма непогашенной задолженности:  {NalogBalance}₽</Text>
           <Text style = {styles.head}>Количество незавершенных исполнительных производств: {NalogCount}</Text>
-          <ScrollView style = {{height: 200}}>
+          <ScrollView style = {{height: 500, marginHorizontal: 30, paddingTop: 10}}>
             {
             this.displayFSSPData(ListData)
             }
           </ScrollView>
-          <Text style = {styles.head}>Общая сумма непогашенной задолженности:  {NalogBalance}₽</Text>
+          
           
         </View>
-        </ScrollView>
-      </View>
+        
+      </SafeAreaView>
     );
   }
 
   getNalogCount =  (FSSPData) => {
     let count = 0;
-    for (key in  FSSPData[`${InNumber}`]){
+    for (let key in  FSSPData[`${InNumber}`]){
       if (FSSPData[`${InNumber}`][key]['Статус'] == 'Не завершено' ) {
         count++;
       }
@@ -72,7 +77,7 @@ class NalogScreen extends React.Component {
 
   getNalogAmount  = (FSSPData) => {
     let amount = 0;
-    for (key in  FSSPData[`${InNumber}`]) {
+    for (let key in  FSSPData[`${InNumber}`]) {
       //console.log( FSSPData[`${InNumber}`][key]['Сумма']);
       if (FSSPData[`${InNumber}`][key]['Статус'] == 'Не завершено' ){
       amount = amount +  FSSPData[`${InNumber}`][key]['Сумма'];
@@ -89,7 +94,7 @@ class NalogScreen extends React.Component {
   
   getNalogBalance = (FSSPData) => {
     let remains = 0;
-    for (key in  FSSPData[`${InNumber}`]) {
+    for (let key in  FSSPData[`${InNumber}`]) {
       console.log( FSSPData[`${InNumber}`][key]['Остаток']);
       if (FSSPData[`${InNumber}`][key]['Статус'] == 'Не завершено' ) {
         remains = remains +  FSSPData[`${InNumber}`][key]['Остаток'];
@@ -106,7 +111,7 @@ class NalogScreen extends React.Component {
  
   getNalog = (FSSPData) => {
     let nalog = 0;
-    for (key in  FSSPData[`${InNumber}`]) {
+    for (let key in  FSSPData[`${InNumber}`]) {
       if (FSSPData[`${InNumber}`][key]['Предмет'] == 'Взыскание налогов и сборов, включая пени' ){
       nalog = nalog +  FSSPData[`${InNumber}`][key]['Сумма'];
       }
@@ -120,7 +125,7 @@ class NalogScreen extends React.Component {
 
   getNalogDebt = (FSSPData) => {
     let debt = 0;
-    for (key in  FSSPData[`${InNumber}`]) {
+    for (let key in  FSSPData[`${InNumber}`]) {
       if (FSSPData[`${InNumber}`][key]['Предмет'] == 'Задолженность' ){
         debt = debt +  FSSPData[`${InNumber}`][key]['Сумма'];
       }
@@ -173,8 +178,24 @@ const styles = StyleSheet.create({
   },
   delaContainer: {
     fontSize: 15,
-    marginTop: '10%',
+    marginTop: '1%',
     textAlign: 'left',
+    fontWeight: 'bold',
+    marginHorizontal: 10,
+    color: 'grey',
+  },
+
+  message: {
+    fontSize: 16,
+    textAlign: 'left',
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  messageContainer: {
+    fontSize: 16,
+    marginTop: '5%',
+    textAlign: 'left',
+    paddingHorizontal: 20,
     fontWeight: 'bold',
     color: 'grey',
   },
@@ -183,7 +204,7 @@ const styles = StyleSheet.create({
     marginTop: 24,
     padding: 25,
     backgroundColor: "#ddd",
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     fontSize: 18,
     textAlign: 'center'
   },
@@ -199,7 +220,7 @@ const styles = StyleSheet.create({
     paddingTop: 26,
     color: 'white',
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
 
 });

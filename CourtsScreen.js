@@ -22,7 +22,7 @@ class CourtsScreen extends React.Component {
 
   render() {
     const score = this.state.score;
-    const {inn, arbitrData} = this.props.route.params;
+    const {inn, arbitrData, arbitrMessages} = this.props.route.params;
 
     console.log(56, arbitrData);
     let plaintiffData = arbitrData.result.Истец;
@@ -40,12 +40,16 @@ class CourtsScreen extends React.Component {
    
 
     return (
-      <View style = {styles.container}>
-        <Text style={styles.headName}>СУДЕБНАЯ НАГРУЗКА</Text>  
+      <SafeAreaView style = {styles.container}>
+        <Text style={styles.headName}>СУДЕБНАЯ НАГРУЗКА</Text> 
+        <View style = {styles.messageContainer}>
+          <Text style = {styles.message}>{arbitrMessages[0]}</Text>
+          <Text style = {styles.message}>{arbitrMessages[1]}</Text>
+        </View>
         <View style = {styles.delaContainer}>
           <Text style = {styles.dela}>Дел в качестве истца:                                {plaintiffCount} </Text>
           <Text style = {styles.delaDetails}>Общая сумма:                                                       {plaintiffAmount}₽ </Text>
-          <ScrollView style = {{height: 120}}>
+          <ScrollView style = {{height: 100}}>
           {
             this.displayPlaintiffData(plaintiffData)
           }
@@ -54,7 +58,7 @@ class CourtsScreen extends React.Component {
         <View style = {styles.delaContainer}>
           <Text style = {styles.dela}>Дел в качестве ответчика:                       {defendantCount}</Text>
           <Text style = {styles.delaDetails}>Общая сумма:                                                       {defendantAmount}₽ </Text>
-          <ScrollView style = {{height: 120}}>
+          <ScrollView style = {{height: 100}}>
           {
             this.displayDefendantData(defendantData)
           }
@@ -64,13 +68,13 @@ class CourtsScreen extends React.Component {
         <View style = {styles.delaContainer}>
           <Text style = {styles.dela}>Дел качестве третьего лица:                  {thirdPartyCount}</Text>
           <Text style = {styles.delaDetails}>Общая сумма:                                                       {thirdPartyAmount}₽ </Text>
-          <ScrollView style = {{height: 120}}>
+          <ScrollView style = {{height: 100}}>
           {
             this.displayThirdPartyData(thirdPartyData)
           }
         </ScrollView>
         </View>
-      </View>
+      </SafeAreaView>
         
       
     );
@@ -82,15 +86,8 @@ class CourtsScreen extends React.Component {
     if(plaintiffData){
       
       for(let i = 0; i < Object.keys(plaintiffData).length; i++){
-        let status = plaintiffData[Object.keys(plaintiffData)[i]].Статус.valueOf();
-        console.log(15,status);
-        console.log(29,typeof(status));
-        
-        if(status != "Рассмотрение дела завершено"){
-          console.log(13, plaintiffData[Object.keys(plaintiffData)[i]].Статус);
-          count++;
-        }
-        
+        console.log(13, plaintiffData[Object.keys(plaintiffData)[i]].Статус);
+        count++;
       }
     }
     return count;
@@ -138,14 +135,7 @@ class CourtsScreen extends React.Component {
     
     if(plaintiffData){
       for(let i = 0; i < Object.keys(plaintiffData).length; i++){
-        let status = plaintiffData[Object.keys(plaintiffData)[i]].Статус.valueOf();
-        console.log(15,status);
-        console.log(29,typeof(status));
-        
-        if(status != "Рассмотрение дела завершено"){
-          amount = amount + plaintiffData[Object.keys(plaintiffData)[i]].Сумма;
-        }
-        
+        amount = amount + plaintiffData[Object.keys(plaintiffData)[i]].Сумма;
       }
     }
     amount = Number((amount).toFixed(2));
@@ -202,17 +192,11 @@ class CourtsScreen extends React.Component {
     if(plaintiffData){
       return(
         Object.keys(plaintiffData).map((item,i) => {
-          let status = plaintiffData[Object.keys(plaintiffData)[i]].Статус.valueOf();
-          
-          if(status != "Рассмотрение дела завершено"){
-            return(
-              <View key = {i}>
-                <Text style = {styles.item} onPress={() => Linking.openURL(plaintiffData[Object.keys(plaintiffData)[i]].Url)}>{item}</Text>
-              </View>
+          return(
+            <View key = {i}>
+              <Text style = {styles.item} onPress={() => Linking.openURL(plaintiffData[Object.keys(plaintiffData)[i]].Url)}>{item}</Text>
+            </View>
             )
-          }
-
-          
         })
       )
     }
@@ -302,6 +286,13 @@ const styles = StyleSheet.create({
     color: 'grey',
   },
 
+  message: {
+    fontSize: 16,
+    textAlign: 'left',
+    fontWeight: 'bold',
+    color: 'black',
+  },
+
   delaDetails: {
     fontSize: 18,
     textAlign: 'left',
@@ -312,6 +303,15 @@ const styles = StyleSheet.create({
   delaContainer: {
     fontSize: 20,
     marginTop: '10%',
+    textAlign: 'left',
+    paddingHorizontal: 20,
+    fontWeight: 'bold',
+    color: 'grey',
+  },
+
+  messageContainer: {
+    fontSize: 16,
+    marginTop: '5%',
     textAlign: 'left',
     paddingHorizontal: 20,
     fontWeight: 'bold',

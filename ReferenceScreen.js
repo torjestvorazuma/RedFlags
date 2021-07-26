@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 
 import React, { useState } from 'react';
 
-import { StyleSheet, View, ScrollView, Text, TextInput, Button, Image, Linking} from 'react-native';
+import { StyleSheet, View, ScrollView, Text, TextInput, Button, Image, Linking, SafeAreaView} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -20,7 +20,7 @@ class ReferenceScreen extends React.Component {
   render() {
     const score = this.state.score;
     return (
-      <View style = {styles.background}>
+      <SafeAreaView style = {styles.background}>
         <View style={styles.headerTitle}>
         <Image style={styles.headerimagine} source={require('./components/green.png')}/>
         <Text style={styles.head}>Справочная информация</Text>
@@ -106,7 +106,7 @@ class ReferenceScreen extends React.Component {
         <Text  style={styles.arbitr}>(находящиеся в производстве){'\n'}</Text>
         <Text style={styles.usualtext}>Множество исков к компании как к ответчику может говорить о постоянном нарушении обязательств перед контрагентами. Если общая сумма исков составляет 50-70% (оранжевый индикатор), 70% и выше (красный индикатор) от всех имеющихся средств организации, то компания с большей вероятностью не сможет в полной мере и в срок рассчитаться по своим обязательствам.{'\n'}</Text>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }

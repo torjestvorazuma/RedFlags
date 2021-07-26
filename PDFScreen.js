@@ -39,6 +39,8 @@ class PDFScreen extends React.Component {
     const {inn, reportData} = this.props.route.params;
     InNumber = inn;
 
+    
+
     let htmlContent = `
     <!DOCTYPE html>
     <html lang="en">
@@ -131,7 +133,7 @@ class PDFScreen extends React.Component {
           <Button title="БУХГАЛТЕРСКАЯ ОТЧЕТНОСТЬ" color={defaultColorText} fontWeight='bold' onPress={() => Linking.openURL(`https://api-fns.ru/api/bo_file?req=${InNumber}&xls=0&year=2020&key=${API_FNS_KEY}`)} />
       </View> 
       <View style={[styles.category, {  backgroundColor: '#00A458' }]}>
-          <Button title="СФОРМИРОВАТЬ ОТЧЁТ" color={defaultColorText} fontWeight='bold' onPress={() => this.createAndSavePDF(htmlContent)} />
+          <Button title="ОТЧЁТ ПО КРИТЕРЯМ БЛАГОНАДЕЖНОСТИ" color={defaultColorText} fontWeight='bold' onPress={() => this.createAndSavePDF(htmlContent)} />
       </View> 
       </ImageBackground>  
       </SafeAreaView>  

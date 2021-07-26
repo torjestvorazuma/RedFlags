@@ -31,33 +31,53 @@ class BookkeepingScreen extends React.Component {
     let warningText = "";
 
     if(revenue/this.getRevenue(bookkeepingData,'2019') < 0.75 || profit/this.getProfit(bookkeepingData,'2019') < 0.75 || balance/this.getBalance(bookkeepingData,'2019') < 0.75){
-      warningText = "Один или несколько показателей понизились на 25% по сравнению с предыдущим годом";
+      warningText = "Один или несколько показателей понизились на более чем на 25% по сравнению с предыдущим годом";
     }
+
+    // "₽"
+
+    let balanceString = balance * 1000 + "₽";
+    let revenueString = revenue * 1000 + "₽";
+    let profitString = profit * 1000 + "₽";
 
     if(bookkeepingData[`${inn}`].length == 0){
-      revenue = 'данные отсутсвуют';
-      profit = 'данные отсутсвуют';
-      balance = 'данные отсутсвуют';
+      revenueString = 'данные отсутсвуют';
+      profitString = 'данные отсутсвуют';
+      balanceString = 'данные отсутсвуют';
     }
 
-    balance = balance * 1000;
-    revenue = revenue * 1000;
-    profit = profit * 1000;
-    //console.log(bookkeepingData['2019'])
-    //console.log(49,DataBookkeeping[`${Object.keys(DataBookkeeping)[0]}`]['2020']['4229']);
+    try{
+      console.log(bookkeepingData[`${inn}`]['2020']['1600']);
+    }
+    catch(e){
+      balanceString = 'данные отсутсвуют';
+    }
+
+    try{
+      console.log(bookkeepingData[`${inn}`]['2020']['2110']);
+    }
+    catch(e){
+      revenueString = 'данные отсутсвуют';
+    }
+
+    try{
+      console.log(bookkeepingData[`${inn}`]['2020']['2400']);
+    }
+    catch(e){
+      profitString = 'данные отсутсвуют';
+    }
 
     return (
-      <View style={styles.background}> 
+      <SafeAreaView style={styles.background}> 
       <ImageBackground  style={styles.imgBackground } source={require('./components/background.png')}>
-        
         <Text style={styles.headName}>БУХГАЛТЕРИЯ</Text> 
         <Text style = {styles.head}>ДАННЫЕ ЗА 2020 ФИНАНСОВЫЙ ГОД</Text>
-        <Text style = {styles.headleft}>Баланс: {balance}₽</Text>
-        <Text style = {styles.headleft}>Выручка: {revenue}₽</Text>
-        <Text style = {styles.headleft}>Чистая прибыль: {profit}₽</Text>
+        <Text style = {styles.headleft}>Баланс: {balanceString}</Text>
+        <Text style = {styles.headleft}>Выручка: {revenueString}</Text>
+        <Text style = {styles.headleft}>Чистая прибыль: {profitString}</Text>
         <Text style = {styles.warning}>{warningText}</Text>
         </ImageBackground>
-      </View>
+      </SafeAreaView>
     );
   }
 

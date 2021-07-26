@@ -155,17 +155,20 @@ class ResearchScreen extends React.Component{
       });
     }
     
-
+    
     let profit = 0;
     let revenue = 0;
     let balance = 0;
     
+    let arbitrMessages = ['',''];
+
+    let nalogMessage = '';
     
 
     let defendantAmount = 0;
     let plaintiffAmount = 0;
     let thirdPartyAmount = 0;
-    console.log(20005, arbitrData);
+    
     let plaintiffData = arbitrData.result.Истец;
     let defendantData = arbitrData.result.Ответчик;
     let thirdPartyData = arbitrData.result.ИноеЛицо;
@@ -182,6 +185,7 @@ class ResearchScreen extends React.Component{
 
     if(bookkeepingData[`${Object.keys(bookkeepingData)[0]}`]['2020']){
       profit = bookkeepingData[`${Object.keys(bookkeepingData)[0]}`]['2020']['1600'];
+      
       reportData.bookkeepingData.profit = profit;
     }
 
@@ -211,14 +215,9 @@ class ResearchScreen extends React.Component{
 
     if(plaintiffData){
       for(let i = 0; i < Object.keys(plaintiffData).length; i++){
-          let status = plaintiffData[Object.keys(plaintiffData)[i]].Статус.valueOf();
-
-          if(status != "Рассмотрение дела завершено"){
             plaintiffCount++;
-          }
-          
-          reportData.arbitrData.plaintiffCount = plaintiffCount;
       }
+      reportData.arbitrData.plaintiffCount = plaintiffCount;
     }
 
     if(defendantData){
@@ -228,9 +227,8 @@ class ResearchScreen extends React.Component{
           if(status != "Рассмотрение дела завершено"){
             defendantCount++;
           }
-          
-          reportData.arbitrData.defendantCount = defendantCount;
       }
+      reportData.arbitrData.defendantCount = defendantCount;
     }
 
     if(thirdPartyData){
@@ -240,39 +238,26 @@ class ResearchScreen extends React.Component{
           if(status != "Рассмотрение дела завершено"){
             thirdPartyCount++;
           }
-          
-          reportData.arbitrData.thirdPartyCount = thirdPartyCount;
       }
+      reportData.arbitrData.thirdPartyCount = thirdPartyCount;
     }
 
     if(arbitrData){
       if(plaintiffData){
         for(let i = 0; i < Object.keys(plaintiffData).length; i++){
-          let status = plaintiffData[Object.keys(plaintiffData)[i]].Статус.valueOf();
-
-          if(status != "Рассмотрение дела завершено"){
-            allCasesCount++;
-          }
+          allCasesCount++;
         }
       }
 
       if(defendantData){
         for(let i = 0; i < Object.keys(defendantData).length; i++){
-          let status = defendantData[Object.keys(defendantData)[i]].Статус.valueOf();
-
-          if(status != "Рассмотрение дела завершено"){
-            allCasesCount++;
-          }
+          allCasesCount++;
         }
       }
 
       if(thirdPartyData){
         for(let i = 0; i < Object.keys(thirdPartyData).length; i++){
-          let status = thirdPartyData[Object.keys(thirdPartyData)[i]].Статус.valueOf();
-
-          if(status != "Рассмотрение дела завершено"){
-            allCasesCount++;
-          }
+          allCasesCount++;
         }
       }
 
@@ -280,10 +265,16 @@ class ResearchScreen extends React.Component{
     }
 
     if(plaintiffCount/allCasesCount >= 0.7){
+      console.log(265,plaintiffCount);
+      console.log(266,allCasesCount);
+      console.log(267,plaintiffCount/allCasesCount);
       arbitrColor = '#FE934B';
-
+      console.log(285,"TOO MANY PLAINTIFF");
       reportData.arbitrData.reliability = '#FE934B';
-      reportData.arbitrData.message1 = 'Данная компания выступает в роли Истца в более 70% дел';
+
+      let message = 'Внимание! Данная компания выступает в роли Истца в более 70% дел';
+      reportData.arbitrData.message1 = message;
+      arbitrMessages[1] = message;
     }
 
     if(defendantData){
@@ -292,7 +283,6 @@ class ResearchScreen extends React.Component{
 
         if(status != "Рассмотрение дела завершено"){
           defendantAmount = defendantAmount + defendantData[Object.keys(defendantData)[i]].Сумма;
-          console.log(30000045454,defendantData[Object.keys(defendantData)[i]].Сумма);
         }
       }
       reportData.arbitrData.defendantAmount = defendantAmount;
@@ -300,10 +290,7 @@ class ResearchScreen extends React.Component{
 
     if(plaintiffData){
       for(let i = 0; i < Object.keys(plaintiffData).length; i++){
-        let status = plaintiffData[Object.keys(plaintiffData)[i]].Статус.valueOf();
-        if(status != "Рассмотрение дела завершено"){
-          plaintiffAmount = plaintiffAmount + plaintiffData[Object.keys(plaintiffData)[i]].Сумма;
-        }
+        plaintiffAmount = plaintiffAmount + plaintiffData[Object.keys(plaintiffData)[i]].Сумма;
       }
       reportData.arbitrData.plaintiffAmount = plaintiffAmount;
     }
@@ -319,18 +306,29 @@ class ResearchScreen extends React.Component{
       reportData.arbitrData.thirdPartyAmount = thirdPartyAmount;
     }
 
-    if(0.5 >= defendantAmount/profit > 0.7){
+    if(defendantAmount/profit > 0.5 && defendantAmount/profit <= 0.7){
+      console.log(323, defendantAmount/profit);
+      console.log(324,"TOO MUCH MONEY FOR DEFENDANT 50%");
       arbitrColor = '#FE934B'; 
+
+      let message = 'Внимание! Сумма потенциальных взысканий по активным искам составляет более 50% от прибыли компании';
       reportData.arbitrData.reliability = '#FE934B';
-      reportData.arbitrData.message2 = 'Сумма потенциальных взысканий по активным искам составляет более 50% от прибыли компании';
+      reportData.arbitrData.message2 = message;
+
+      arbitrMessages[0] = message;
     }
 
     if(defendantAmount/profit >= 0.7){
-      console.log(233, defendantAmount);
+      console.log(330, defendantAmount/profit);
+      console.log(331,"TOO MUCH MONEY FOR DEFENDANT 70%");
+
       arbitrColor = '#FF5656'; 
 
+      let message = 'Внимание! Сумма потенциальных взысканий по активным искам составляет более 70% от прибыли компании';
       reportData.arbitrData.reliability = '#FF5656';
-      reportData.arbitrData.message2 = 'Сумма потенциальных взысканий по активным искам составляет более 70% от прибыли компании';
+      reportData.arbitrData.message2 = message;
+
+      arbitrMessages[0] = message;
     }
 
     let remainingCredit = 0;
@@ -367,19 +365,18 @@ class ResearchScreen extends React.Component{
     }
    
     if(remainingCredit/profit >= 0.65){
-      console.log(255,remainingCredit/profit);
+      console.log(370,remainingCredit/profit + "\n");
       nalogColor = '#FE934B';
 
       reportData.nalogData.reliability = '#FE934B';
-      reportData.nalogData.message = 'Сумма неуплаченной задолженности составляет более 65% от прибыли компании'
+      let message = 'Сумма неуплаченной задолженности составляет более 65% от прибыли компании';
+      reportData.nalogData.message = message;
+      nalogMessage = message;
     }
     //7810915591
     let registrationDate = new Date(finalData.items[0].ЮЛ.ДатаРег);
 
     let today = new Date();
-
-    console.log(522, today.getFullYear());
-    console.log(511, registrationDate.getFullYear());
 
     if(today.getFullYear() - registrationDate.getFullYear() < 3){
       dateColor = '#FF5656';
@@ -390,27 +387,46 @@ class ResearchScreen extends React.Component{
       reportData.generalData.date.message = registartionDateNote;
     }
 
+    let statusValue = finalData.items[0].ЮЛ.Статус.toLowerCase();
     //0255019488
-    if(finalData.items[0].ЮЛ.Статус.toLowerCase().includes("реорганизац")){
+    if(!(statusValue.includes("реорганизац") || statusValue.includes("ликвидировано") || statusValue.includes("действующее"))){
       statusColor = '#FE934B';
+      dateColor= '#F3F4F6';
 
       reportData.generalData.status.reliability = '#FE934B';
+      reportData.generalData.date.reliability = '#F3F4F6';
+      reportData.generalData.status.value = finalData.items[0].ЮЛ.Статус;
+    }
+    if(statusValue.includes("реорганизац")){
+      statusColor = '#FE934B';
+      dateColor= '#F3F4F6';
+
+      reportData.generalData.status.reliability = '#FE934B';
+      reportData.generalData.date.reliability = '#F3F4F6';
       reportData.generalData.status.value = finalData.items[0].ЮЛ.Статус;
     }
     //1101107224
-    if(finalData.items[0].ЮЛ.Статус.toLowerCase().includes("ликвидировано")){
+    if(statusValue.includes("ликвидировано")){
       statusColor = '#FF5656';
-
+      dateColor= '#F3F4F6';
+      
       reportData.generalData.status.reliability = '#FF5656';
+      reportData.generalData.date.reliability = '#F3F4F6';
       reportData.generalData.status.value = finalData.items[0].ЮЛ.Статус;
     }
 
-    
+
+
     if(revenue/previousRevenue < 0.75 || profit/previousProfit < 0.75 || balance/previousBalance < 0.75){
       bookkeepingColor = '#FE934B';
 
       reportData.bookkeepingData.reliability = '#FE934B';
       reportData.bookkeepingData.message = 'Один или несколько показателей понизились на 25% по сравнению с предыдущим годом';
+    }
+
+    if(profit < 0){
+      bookkeepingColor = '#FE934B';
+      reportData.bookkeepingData.reliability = '#FE934B';
     }
 
     if(bookkeepingData[`${inn}`].length == 0){
@@ -449,8 +465,8 @@ class ResearchScreen extends React.Component{
     reportData.generalData.date.value = finalData.items[0].ЮЛ.ДатаРег;
     reportData.generalData.status.value = finalData.items[0].ЮЛ.Статус;
 
-    console.log(305, reportData);
-    //1101107224
+    console.log(449, reportData);
+    
     return (
       <SafeAreaView style={styles.background}>
         <Text style={styles.headName}> {finalData.items[0].ЮЛ.НаимСокрЮЛ}</Text>  
@@ -472,10 +488,10 @@ class ResearchScreen extends React.Component{
           <Button title="БУХГАЛТЕРИЯ" color={bookkeepingColorText} fontWeight='bold' onPress={() => this.props.navigation.navigate('Bookkeeping', {inn: inn, bookkeepingData: bookkeepingData})} />
         </View>
         <View style={[styles.category, { backgroundColor: nalogColor }]}>
-          <Button title="ЗАДОЛЖЕННОСТИ" color={nalogColorText} fontWeight='bold' onPress={() => this.props.navigation.navigate('Debt',{inn: inn, FSSPData: FSSPData})} />
+          <Button title="ЗАДОЛЖЕННОСТИ" color={nalogColorText} fontWeight='bold' onPress={() => this.props.navigation.navigate('Debt',{inn: inn, FSSPData: FSSPData, nalogMessage: nalogMessage})} />
         </View>
         <View style={[styles.category, { backgroundColor: arbitrColor }]}>
-          <Button title="СУДЕБНАЯ НАГРУЗКА" color={arbitrColorText} fontWeight='bold' onPress={() => this.props.navigation.navigate('Courts',{inn: this.state.INN,arbitrData: arbitrData})} />
+          <Button title="СУДЕБНАЯ НАГРУЗКА" color={arbitrColorText} fontWeight='bold' onPress={() => this.props.navigation.navigate('Courts',{inn: this.state.INN,arbitrData: arbitrData, arbitrMessages: arbitrMessages})} />
         </View>
         <View style={[styles.category, {  backgroundColor: '#5961AB' }]}>
           <Button title="ПОЛУЧИТЬ ОТЧЕТ" color={defaultColorText} fontWeight='bold' onPress={() => this.props.navigation.navigate('PDF',{inn: inn, reportData: reportData})} />
