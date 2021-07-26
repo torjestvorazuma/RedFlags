@@ -162,6 +162,8 @@ class ResearchScreen extends React.Component{
     let thirdPartyData = arbitrData.result.ИноеЛицо;
 
     let plaintiffCount = 0;
+    let defendantCount = 0;
+    let thirdPartyCount = 0;
     let allCasesCount = 0;
 
     let previousRevenue = 0;
@@ -205,14 +207,14 @@ class ResearchScreen extends React.Component{
     }
 
     if(defendantData){
-      for(let i = 0; i < Object.keys(plaintiffData).length; i++){
+      for(let i = 0; i < Object.keys(defendantData).length; i++){
           defendantCount++;
           reportData.arbitrData.defendantCount = defendantCount;
       }
     }
 
     if(thirdPartyData){
-      for(let i = 0; i < Object.keys(plaintiffData).length; i++){
+      for(let i = 0; i < Object.keys(thirdPartyData).length; i++){
           thirdPartyCount++;
           reportData.arbitrData.thirdPartyCount = thirdPartyCount;
       }
