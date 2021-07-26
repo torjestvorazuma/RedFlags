@@ -54,13 +54,17 @@ class PDFScreen extends React.Component {
             h1 {
                 text-align: center;
             }
+            section {
+              break-inside: avoid;
+            }
         </style>
     </head>
     <body>
+        <section>
         <h1>${reportData.generalData.name}</h1>
         <h2>Общая информация</h2>
       
-        <Text>Cтатус: ${reportData.generalData.status.value}<Text style="color: ${reportData.generalData.status.reliability}">●\n</Text></Text><
+        <Text>Cтатус: ${reportData.generalData.status.value}<Text style="color: ${reportData.generalData.status.reliability}">●\n</Text></Text>
         <br>
 
         <Text>Дата регистрации: ${reportData.generalData.date.value}\n<Text style="color: ${reportData.generalData.date.reliability}">●\n</Text></Text>
@@ -75,24 +79,28 @@ class PDFScreen extends React.Component {
         <Text>Основной вид деятельности: ${reportData.generalData.okved}\n</Text><br>
         <Text>Руководитель: ${reportData.generalData.ceo}\n</Text><br>
         <Text>Адрес: ${reportData.generalData.address}\n</Text><br>
-        
+        </section>
+        <section>
         <h2>Критерии</h2>
         <h3 style="background-color: ${reportData.addressData.reliability}">Массовость адреса</h3>
         <Text>${reportData.addressData.message}\n</Text><br>
         <Text>Компаний, зарегистрированных на данный адрес: ${reportData.addressData.count}\n</Text><br>
-        
+        </section>
+        <section>
         <h3 style="background-color: ${reportData.bookkeepingData.reliability}">Бухгалтерия</h3>
         <Text>${reportData.bookkeepingData.message}\n</Text><br>
         <Text>Данные за 2020 год:\n</Text><br>
         <Text>Баланс: ${reportData.bookkeepingData.balance}₽\n</Text><br>
         <Text>Выручка: ${reportData.bookkeepingData.revenue}₽\n</Text><br>
         <Text>Прибыль: ${reportData.bookkeepingData.profit}₽\n</Text><br>
-
+        </section>
+        <section>
         <h3 style="background-color: ${reportData.nalogData.reliability}">Задолженности</h3>
         <Text>${reportData.nalogData.message}\n</Text><br>
         <Text>Количетсво исполнительных производств: ${reportData.nalogData.remainingCasesCount}\n</Text><br>
         <Text>Сумма неуплаченной задолженности: ${reportData.nalogData.remainingCredit}₽\n</Text><br>
-
+        </section>
+        <section>
         <h3 style="background-color: ${reportData.arbitrData.reliability}">Судебная нагрузка</h3>
         <Text>${reportData.arbitrData.messageOne}\n</Text><br>
         <Text>${reportData.arbitrData.messageTwo}\n</Text><br>
@@ -100,7 +108,7 @@ class PDFScreen extends React.Component {
         <Text>В роли истца: ${reportData.arbitrData.plaintiffCount} на сумму ${reportData.arbitrData.plaintiffAmount}₽</Text><br>
         <Text>В роли ответчика: ${reportData.arbitrData.defendantCount} на сумму ${reportData.arbitrData.defendantAmount}₽</Text><br>
         <Text>В роли третьего лица: ${reportData.arbitrData.thirdPartyCount} на сумму ${reportData.arbitrData.thirdPartyAmount}₽</Text><br>
-
+        </section>
     </body>
     </html>
 `;
