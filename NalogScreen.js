@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 
 import React, { useState } from 'react';
 
-import { StyleSheet, View, Text, TextInput, ScrollView, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput, ScrollView, Button, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -41,7 +41,7 @@ class NalogScreen extends React.Component {
        //<Text>Количество исполнительных производств:        {NalogCount} </Text>
         //<Text>Общая сумма задолженности (в рублях):         {NalogAmount} </Text>
     return (
-      <View style = {styles.container}>
+      <SafeAreaView style = {styles.container}>
         <ScrollView>
         <View style = {styles.delaContainer}>
           <Text style = {styles.head}>Количество незавершенных исполнительных производств: {NalogCount}</Text>
@@ -54,7 +54,7 @@ class NalogScreen extends React.Component {
           
         </View>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -63,12 +63,8 @@ class NalogScreen extends React.Component {
     for (key in  FSSPData[`${InNumber}`]){
       if (FSSPData[`${InNumber}`][key]['Статус'] == 'Не завершено' ) {
         count++;
-        //console.log(count);
       }
     } 
-    //console.log(InNumber)
-    //console.log('количество');
-    //console.log(count);
     return count;
   }
 
@@ -158,6 +154,7 @@ class NalogScreen extends React.Component {
 const styles = StyleSheet.create({
 
   background: {
+    marginTop: '15%',
     backgroundColor: '#F8F8FF',
     height: '100%'
   },

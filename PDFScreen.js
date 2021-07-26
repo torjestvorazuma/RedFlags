@@ -2,26 +2,27 @@ import 'react-native-gesture-handler';
 
 import React, { useState } from 'react';
 
-import {View, Text, TextInput, Button, StyleSheet, Linking, Image, ImageBackground} from 'react-native';
-//import PDFView from 'react-native-view-pdf';
-//import { Page ,Document, PDFViewer } from 'react-native-web';
+import {View, Text, TextInput, Button, StyleSheet, Linking, Image, ImageBackground, SafeAreaView} from 'react-native';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-//import RNHTMLtoPDF from "react-native-html-to-pdf";
-//import { generateFileHTML } from "./generateFileHTML";
-//import { createPDF } from "./createPDF";
-//import Pdf from "react-native-pdf";
-//import * as Print from "expo-print";
-//import * as MediaLibrary from "expo-media-library";
-//import * as Sharing from "expo-sharing";
+
+import * as Print from "expo-print";
+import * as MediaLibrary from "expo-media-library";
+import * as Sharing from "expo-sharing";
+
 
 const Stack = createStackNavigator();
 import Header from './components/Header';
 import HomeScreen from './HomeScreen';
 
 
-const API_FNS_KEY = '252dffd2565f4318d5b19b08337d2a315c028fa5';
+const API_FNS_KEY = 'af30ef4a9d50f822fa878713aefd9913f3ea3825';
 let InNumber;
+
+
+
+
 
 
 class PDFScreen extends React.Component {
@@ -30,32 +31,126 @@ class PDFScreen extends React.Component {
     scoreColor: '#77dd77'
   }
   
+  
+
   render() {
 
     const score = this.state.score;
-    const {inn} = this.props.route.params;
+    const {inn, reportData} = this.props.route.params;
     InNumber = inn;
+
+    let htmlContent = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pdf Content</title>
+        <style>
+            body {
+                font-size: 16px;
+                color: #black;
+            }
+            h1 {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>${reportData.generalData.name}</h1>
+        <h2>Общая информация</h2>
+      
+        <Text>Cтатус: ${reportData.generalData.status.value}<Text style="color: ${reportData.generalData.status.reliability}">●\n</Text></Text><
+        <br>
+
+        <Text>Дата регистрации: ${reportData.generalData.date.value}\n<Text style="color: ${reportData.generalData.date.reliability}">●\n</Text></Text>
+        <br>
+        <Text>${reportData.generalData.date.message}\n</Text>
+        <br>
+
+        <Text>ИНН: ${reportData.generalData.inn}\n</Text><br>
+        <Text>ОГРН: ${reportData.generalData.ogrn}\n</Text><br>
+        <Text>КПП: ${reportData.generalData.kpp}\n</Text><br>
+        
+        <Text>Основной вид деятельности: ${reportData.generalData.okved}\n</Text><br>
+        <Text>Руководитель: ${reportData.generalData.ceo}\n</Text><br>
+        <Text>Адрес: ${reportData.generalData.address}\n</Text><br>
+        
+        <h2>Критерии</h2>
+        <h3 style="background-color: ${reportData.addressData.reliability}">Массовость адреса</h3>
+        <Text>${reportData.addressData.message}\n</Text><br>
+        <Text>Компаний, зарегистрированных на данный адрес: ${reportData.addressData.count}\n</Text><br>
+        
+        <h3 style="background-color: ${reportData.bookkeepingData.reliability}">Бухгалтерия</h3>
+        <Text>${reportData.bookkeepingData.message}\n</Text><br>
+        <Text>Данные за 2020 год:\n</Text><br>
+        <Text>Баланс: ${reportData.bookkeepingData.balance}₽\n</Text><br>
+        <Text>Выручка: ${reportData.bookkeepingData.revenue}₽\n</Text><br>
+        <Text>Прибыль: ${reportData.bookkeepingData.profit}₽\n</Text><br>
+
+        <h3 style="background-color: ${reportData.nalogData.reliability}">Задолженности</h3>
+        <Text>${reportData.nalogData.message}\n</Text><br>
+        <Text>Количетсво исполнительных производств: ${reportData.nalogData.remainingCasesCount}\n</Text><br>
+        <Text>Сумма неуплаченной задолженности: ${reportData.nalogData.remainingCredit}₽\n</Text><br>
+
+        <h3 style="background-color: ${reportData.arbitrData.reliability}">Судебная нагрузка</h3>
+        <Text>${reportData.arbitrData.messageOne}\n</Text><br>
+        <Text>${reportData.arbitrData.messageTwo}\n</Text><br>
+        <Text>Всего активных дел: ${reportData.arbitrData.totalCount}\n</Text><br>
+        <Text>В роли истца: ${reportData.arbitrData.plaintiffCount} на сумму ${reportData.arbitrData.plaintiffAmount}₽</Text><br>
+        <Text>В роли ответчика: ${reportData.arbitrData.defendantCount} на сумму ${reportData.arbitrData.defendantAmount}₽</Text><br>
+        <Text>В роли третьего лица: ${reportData.arbitrData.thirdPartyCount} на сумму ${reportData.arbitrData.thirdPartyAmount}₽</Text><br>
+
+    </body>
+    </html>
+`;
     
+    let defaultColorText = '#5961AB';
+
+    if(Platform.OS === "ios"){
+      defaultColorText = '#fff';
+    }
+
+    console.log(3000004, reportData);
     
     return (
-      <View style={styles.background}> 
+      <SafeAreaView style={styles.background}> 
       <ImageBackground  style={styles.imgBackground } source={require('./components/background.png')}>
       <Image style={styles.imagine} source={require('./components/mainpic.png')}/>
       <Text style = {styles.headName}>Формирование отчетов</Text>
       <View style={[styles.category, {  backgroundColor: '#5961AB' }]}>
-          <Button title="ВЫПИСКА ИЗ ЕГРЮЛ" color='#fff' fontWeight='bold' onPress={() => Linking.openURL(`https://api-fns.ru/api/vyp?req=${InNumber}&key=${API_FNS_KEY}`)} />
+          <Button title="ВЫПИСКА ИЗ ЕГРЮЛ" color={defaultColorText} fontWeight='bold' onPress={() => Linking.openURL(`https://api-fns.ru/api/vyp?req=${InNumber}&key=${API_FNS_KEY}`)} />
+      </View> 
+      <View style={[styles.category, {  backgroundColor: '#5961AB' }]}>
+          <Button title="СФОРМИРОВАТЬ ОТЧЁТ" color={defaultColorText} fontWeight='bold' onPress={() => this.createAndSavePDF(htmlContent)} />
       </View> 
       </ImageBackground>  
-      </View>  
+      </SafeAreaView>  
     );
   }
   
+  createAndSavePDF = async (html) => {
+    try {
+      const { uri } = await Print.printToFileAsync({ html });
+      if (Platform.OS === "ios") {
+        await Sharing.shareAsync(uri);
+      } else {
+        const permission = await MediaLibrary.requestPermissionsAsync();
+        if (permission.granted) {
+          await MediaLibrary.createAssetAsync(uri);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   
 }
 
 const styles = StyleSheet.create({
 
   background: {
+    marginTop: '15%',
     backgroundColor: '#F3F4F6',
     height: '100%'
   },

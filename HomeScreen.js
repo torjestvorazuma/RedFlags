@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, Image, ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, Image, ImageBackground, SafeAreaView} from 'react-native';
 import Header from './components/Header';
 
-const API_FNS_KEY = '252dffd2565f4318d5b19b08337d2a315c028fa5';
-const API_ARBITR_KEY = 'f4db1d9e4e66dc74b3f62d4c076aced4fcfc715a';
-const API_FSSP_KEY = 'a445ee2e028fc7eb9b9ea2a57925bc0f7148bce3';
+const API_FNS_KEY = 'af30ef4a9d50f822fa878713aefd9913f3ea3825';
+const API_ARBITR_KEY = 'de847fb6b9ad056295703663b48510fcc2e2d667';
+const API_FSSP_KEY = '949902c1917f2d12c10496e0e628f1f85d879216';
 
 let finalDataJSON;
 let finalAdressDataJSON;
@@ -19,6 +19,7 @@ class HomeScreen extends React.Component {
       INN: '',
     };  
   }
+
 //1600 баланс
 
 //2110 выручка
@@ -62,7 +63,7 @@ class HomeScreen extends React.Component {
     //On button press load data from website and pass values to next screen
     const {error, INN} = this.state;
     return (
-      <View style={styles.background}>
+      <SafeAreaView style={styles.background}>
         <ImageBackground style={ styles.imgBackground } source={require('./components/background1.png')}>
         <Image style={styles.imagine} source={require('./components/mainpic.png')}/>
         <Text style={styles.head}>Проверь благонадежность компании</Text>
@@ -70,14 +71,13 @@ class HomeScreen extends React.Component {
         <Button title="Найти" color="#5961AB"  onPress={this.onPress}  /> 
         {error ? <Text>{error}</Text> : null}
         </ImageBackground>
-      </View>
+      </SafeAreaView>
     );
   }
 
   gettingInformationCompany = async () => {
     const api_url = await fetch(`https://api-fns.ru/api/egr?req=${this.state.INN}&key=${API_FNS_KEY}`);
     const finalDataJSON = await api_url.json();
-    //console.log(finalDataJSON);
     return finalDataJSON;
   };
 
@@ -85,46 +85,39 @@ class HomeScreen extends React.Component {
     const data = await this.gettingInformationCompany();
     const api_url = await fetch(`https://api-fns.ru/api/search?q=${data.items[0].ЮЛ.Адрес.АдресПолн}&key=${API_FNS_KEY}`);
     const DataJSON = await api_url.json();
-    //console.log(DataJSON);
     return DataJSON;
   };
 
   gettingInformationAboutArbitr = async () => {
     const api_url = await fetch(`https://damia.ru/api-arb/dela?q=${this.state.INN}&key=${API_ARBITR_KEY}`);
     const DataArbitrJSON = await api_url.json();
-    //console.log(DataArbitrJSON);
     return DataArbitrJSON;
   };
 
   gettingInformationAboutFSSP = async () => {
     const api_url = await fetch(`https://damia.ru/api-fssp/isps?inn=${this.state.INN}&format=2&key=${API_FSSP_KEY}`);
     const DataFSSPJSON = await api_url.json();
-    console.log(52,DataFSSPJSON);
     return DataFSSPJSON;
   };
 
   gettingBookkeepingData = async () => {
     const api_url = await fetch(`https://api-fns.ru/api/bo?req=${this.state.INN}&key=${API_FNS_KEY}`);
     const DataBookkeeping = await api_url.json();
-    console.log(49,DataBookkeeping[`${Object.keys(DataBookkeeping)[0]}`]['2020']);
     return DataBookkeeping;
   };
 }
 
-
 const styles = StyleSheet.create({
-
   background: {
+    marginTop: '15%',
     backgroundColor: '#F3F4F6', 
     height: '100%'
   },
-
   head: {
     fontSize: 20,
     textAlign: 'center',
     fontWeight: 'bold',
     color: 'black',
-    //paddingTop: '50%'
   },
   input: {
     fontSize: 18,
@@ -147,36 +140,23 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     height: '4%',
     backgroundColor: '#77dd77'//'#ceffbc'
-},
-text: {
+  },
+  text: {
     fontSize: 25,
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center'
-}, 
-imagine: {
-  //position: 'absolute',
-  //width: '50%',
-  //height: '50%',
-  //justifyContent: 'center',
-  //alignItems: 'center',
-  width: 425,
-  height: 300,
-  alignSelf:'center'
-  
-
-},
-imgBackground: {
-  flex: 1,
-  width: null,
-  height: null,
-  resizeMode: 'cover',
-  //justifyContent: "center",
-  //alignItems: "center",
-  //resizeMode: 'cover',
-  //top: 0,
-  //opacity: 0.7
-},
-
+  }, 
+  imagine: {
+    width: 425,
+    height: 300,
+    alignSelf:'center'
+  },
+  imgBackground: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode: 'cover',
+  },
 });
 export default HomeScreen;

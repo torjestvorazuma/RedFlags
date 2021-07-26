@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 
 import React, { useState } from 'react';
 
-import { StyleSheet, View, Text, TextInput, Button, ScrollView, Linking } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, ScrollView, Linking, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -40,7 +40,7 @@ class CourtsScreen extends React.Component {
    
 
     return (
-      <View style = {styles.container}>
+      <SafeAreaView style = {styles.container}>
         <View style = {styles.delaContainer}>
           <Text style = {styles.dela}>Дел в качестве истца:                                {plaintiffCount} </Text>
           <Text style = {styles.delaDetails}>Общая сумма:                                                       {plaintiffAmount}₽ </Text>
@@ -69,7 +69,7 @@ class CourtsScreen extends React.Component {
           }
         </ScrollView>
         </View>
-      </View>
+      </SafeAreaView>
         
       
     );
@@ -275,6 +275,7 @@ class CourtsScreen extends React.Component {
 const styles = StyleSheet.create({
 
   background: {
+    marginTop: '15%',
     backgroundColor: '#F8F8FF', 
     height: '100%'
   },
