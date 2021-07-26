@@ -13,6 +13,13 @@ class ResearchScreen extends React.Component{
     super()
   }
 
+  //7728898960
+  //1101107224
+  //7736050003
+  //7728168971
+  //7702044361
+
+
   state = {
     scoreColor: 'black',
     addressColor: '#00A458',
@@ -156,6 +163,8 @@ class ResearchScreen extends React.Component{
     
 
     let defendantAmount = 0;
+    let plaintiffAmount = 0;
+    let thirdPartyAmount = 0;
     console.log(20005, arbitrData);
     let plaintiffData = arbitrData.result.Истец;
     let defendantData = arbitrData.result.Ответчик;
@@ -169,6 +178,7 @@ class ResearchScreen extends React.Component{
     let previousRevenue = 0;
     let previousBalance = 0;
     let previousProfit = 0;
+
 
     if(bookkeepingData[`${Object.keys(bookkeepingData)[0]}`]['2020']){
       profit = bookkeepingData[`${Object.keys(bookkeepingData)[0]}`]['2020']['1600'];
@@ -201,21 +211,36 @@ class ResearchScreen extends React.Component{
 
     if(plaintiffData){
       for(let i = 0; i < Object.keys(plaintiffData).length; i++){
-          plaintiffCount++;
+          let status = plaintiffData[Object.keys(plaintiffData)[i]].Статус.valueOf();
+
+          if(status != "Рассмотрение дела завершено"){
+            plaintiffCount++;
+          }
+          
           reportData.arbitrData.plaintiffCount = plaintiffCount;
       }
     }
 
     if(defendantData){
       for(let i = 0; i < Object.keys(defendantData).length; i++){
-          defendantCount++;
+          let status = defendantData[Object.keys(defendantData)[i]].Статус.valueOf();
+
+          if(status != "Рассмотрение дела завершено"){
+            defendantCount++;
+          }
+          
           reportData.arbitrData.defendantCount = defendantCount;
       }
     }
 
     if(thirdPartyData){
       for(let i = 0; i < Object.keys(thirdPartyData).length; i++){
-          thirdPartyCount++;
+          let status = thirdPartyData[Object.keys(thirdPartyData)[i]].Статус.valueOf();
+
+          if(status != "Рассмотрение дела завершено"){
+            thirdPartyCount++;
+          }
+          
           reportData.arbitrData.thirdPartyCount = thirdPartyCount;
       }
     }
@@ -267,6 +292,7 @@ class ResearchScreen extends React.Component{
 
         if(status != "Рассмотрение дела завершено"){
           defendantAmount = defendantAmount + defendantData[Object.keys(defendantData)[i]].Сумма;
+          console.log(30000045454,defendantData[Object.keys(defendantData)[i]].Сумма);
         }
       }
       reportData.arbitrData.defendantAmount = defendantAmount;
@@ -316,14 +342,15 @@ class ResearchScreen extends React.Component{
     if(FSSPData){
       ListData = FSSPData[`${inn}`];
 
-      for (key in  FSSPData[`${inn}`]) {
+      for (let key in FSSPData[`${inn}`]) {
         if (FSSPData[`${inn}`][key]['Статус'] == 'Не завершено' ) {
           remainingCredit = remainingCredit +  FSSPData[`${inn}`][key]['Остаток'];
         }
       }
+
       reportData.nalogData.remainingCredit = remainingCredit;
 
-      for (key in  FSSPData[`${inn}`]){
+      for (let key in  FSSPData[`${inn}`]){
         if (FSSPData[`${inn}`][key]['Статус'] == 'Не завершено' ) {
           remainingCreditCount++;
         }
@@ -418,6 +445,9 @@ class ResearchScreen extends React.Component{
     reportData.generalData.kpp = finalData.items[0].ЮЛ.КПП;
 
     reportData.generalData.address = finalData.items[0].ЮЛ.Адрес.АдресПолн;
+
+    reportData.generalData.date.value = finalData.items[0].ЮЛ.ДатаРег;
+    reportData.generalData.status.value = finalData.items[0].ЮЛ.Статус;
 
     console.log(305, reportData);
     //1101107224
