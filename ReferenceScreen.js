@@ -49,7 +49,7 @@ class ReferenceScreen extends React.Component {
         </Text> 
         <Text onPress={() => Linking.openURL(`http://www.consultant.ru/document/cons_doc_LAW_39331/8764f1ea3b4838d75bea542a4b17522b6649f35d/`)}
            style={styles.link}>
-         Ст. 2 Федеральный закон «О несостоятельности (банкротстве)»{'\n'}
+         Ст. 2 Федеральный закон «О несостоятельности (банкротстве)»{'\n'}{'\n'}
         </Text> 
         <Text style={styles.headtext}>Возраст организации{'\n'}</Text>
         <Text style={styles.usualtext}>Чем дольше компания существует, тем ниже вероятность того, что она окажется неблагонадежной.{'\n'}Недавно зарегистрированные организации менее устойчивы к изменениям на рынке. 
@@ -57,8 +57,9 @@ class ReferenceScreen extends React.Component {
  {'\n'}</Text>
         <Text onPress={() => Linking.openURL(`https://login.consultant.ru/?overror=SESSION_EXPIRED&returnUrl=base%3DPKBO%26cacheid%3D45DA2EBE3A3AD50FE58A42CD59EFD157%26dst%3D100083%26mode%3Dsplus%26n%3D50202%26req%3Ddoc%26rnd%3DFC53FED36C1C4F14EE691F9BF89C616C%26ts%3D113313642509701417050120058#jcvm30q2c9`)}
            style={styles.link}>
-         ¹Готовое решение: Налоговые риски (КонсультантПлюс,2021){'\n'}
+         ¹Готовое решение: Налоговые риски (КонсультантПлюс,2021)
         </Text> 
+        <Text style={styles.linktoK}>(ссылка на коммерческую версию СПС "КонсультантПлюс"){'\n'}{'\n'}</Text>
         <Text style={styles.headtext}>Массовость адреса{'\n'}</Text>
         <Text style={styles.usualtext}>Массовость адреса может свидетельствовать о существовании "фирмы-однодневки".</Text>
         <Text style={styles.usualtext}>Под фирмой-однодневкой в самом общем смысле понимается юридическое лицо, не обладающее фактической самостоятельностью, созданное без цели ведения предпринимательской деятельности, как правило, не представляющее налоговую отчетность, зарегистрированное по адресу массовой регистрации и т.д.¹. {'\n'}</Text> 
@@ -69,7 +70,7 @@ class ReferenceScreen extends React.Component {
         </Text> 
         <Text onPress={() => Linking.openURL(`http://www.consultant.ru/document/cons_doc_LAW_198382/`)}
            style={styles.link}>
-          ²Приказ ФНС РФ от 11.02.2016 № ММВ-7-14/72@
+          ²Приказ ФНС РФ от 11.02.2016 № ММВ-7-14/72@{'\n'}{'\n'}
         </Text>  
         <Text style={styles.headtext}>Бухгалтерия{'\n'}</Text>
         <Text style={styles.usualtext}>Полученные данные в виде баланса, прибыли и выручки позволяют сделать сразу несколько важных выводов о компании:{'\n'}1) подтверждает, что организация сдает отчетность;{'\n'}2) позволяет установить, велась ли компанией хозяйственная деятельность;{'\n'}3) дает информацию о «портфеле» средств, которыми располагает организация.</Text>
@@ -83,10 +84,12 @@ class ReferenceScreen extends React.Component {
            style={styles.link}>
           ¹Постановление Пятнадцатого арбитражного апелляционного суда от 23.04.2019 № 15АП-22083/2018 по делу № А32-29544/2015
         </Text>  
+        <Text style={styles.linktoK}>(ссылка на коммерческую версию СПС "КонсультантПлюс"){'\n'}</Text>
         <Text onPress={() => Linking.openURL(`https://login.consultant.ru/?overror=SESSION_EXPIRED&returnUrl=base%3DQUEST%26cacheid%3DE3E617A8D59C8F930C633D31D047F118%26mode%3Dsplus%26n%3D82176%26req%3Ddoc%26rnd%3D4656394A859C44DD58A078A92E7C5965%26ts%3D334200342032932553133397713#8m6o9j6vuv0`)}
            style={styles.link}>
-          ²Письмо Минфина РФ от 16.04.2010 № 03-02-08/25{'\n'}
+          ²Письмо Минфина РФ от 16.04.2010 № 03-02-08/25
         </Text> 
+        <Text style={styles.linktoK}>(ссылка на коммерческую версию СПС "КонсультантПлюс"){'\n'}{'\n'}</Text>
         <Text style={styles.headtype}>Задолженности{'\n'}</Text> 
         <Text style={styles.headtext}>Исполнительные производства{'\n'}</Text> 
         <Text style={styles.usualtext}>Если организация не погасила задолженность добровольно, суд принимает решение о принудительном взыскании.{'\n'}Наличие небольших штрафов является показателем реальной деятельности компании. Однако наличие крупных сумм исполнительных производств (65% и выше от всех имеющихся средств компании) — это признак потенциально неблагонадежного контрагента.{'\n'}</Text>
@@ -116,6 +119,10 @@ const styles = StyleSheet.create({
   },
   arbitr:{
     color: 'grey',
+  },
+  linktoK: {
+    color: 'grey',
+    textAlign: 'right',
   },
   headtype:{
     fontSize: 20,
