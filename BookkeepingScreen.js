@@ -100,6 +100,7 @@ class BookkeepingScreen extends React.Component {
     if(bookkeepingData[`${Object.keys(bookkeepingData)[0]}`][year]){
       return bookkeepingData[`${Object.keys(bookkeepingData)[0]}`][year]['2400'];
     }
+    console.log(32323232, bookkeepingData[`${Object.keys(bookkeepingData)[0]}`][year]['2400']);
     return 0;
   }
 

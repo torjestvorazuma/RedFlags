@@ -14,10 +14,9 @@ class ResearchScreen extends React.Component{
   }
 
   //7728898960
-  //1101107224
-  //7736050003
-  //7728168971
-  //7702044361
+  //2224144073
+
+  
 
 
   state = {
@@ -112,7 +111,7 @@ class ResearchScreen extends React.Component{
     let arbitrColor =  '#00A458' ;
     let nalogColor =  '#00A458';
     let statusColor = '#00A458';
-    let dateColor = '#00A458';
+    let dateColor = '#F3F4F6';
 
     let addressColorText =  addressColor;
     let bookkeepingColorText = bookkeepingColor;
@@ -184,7 +183,7 @@ class ResearchScreen extends React.Component{
 
 
     if(bookkeepingData[`${Object.keys(bookkeepingData)[0]}`]['2020']){
-      profit = bookkeepingData[`${Object.keys(bookkeepingData)[0]}`]['2020']['1600'];
+      profit = bookkeepingData[`${Object.keys(bookkeepingData)[0]}`]['2020']['2400'];
       
       reportData.bookkeepingData.profit = profit;
     }
@@ -260,11 +259,12 @@ class ResearchScreen extends React.Component{
           allCasesCount++;
         }
       }
+  
 
       reportData.arbitrData.totalCount = allCasesCount;
     }
 
-    if(plaintiffCount/allCasesCount >= 0.7){
+    if(plaintiffCount/allCasesCount >= 0.75){
       console.log(265,plaintiffCount);
       console.log(266,allCasesCount);
       console.log(267,plaintiffCount/allCasesCount);
@@ -272,8 +272,8 @@ class ResearchScreen extends React.Component{
       console.log(285,"TOO MANY PLAINTIFF");
       reportData.arbitrData.reliability = '#FE934B';
 
-      let message = 'Внимание! Данная компания выступает в роли Истца в более 70% дел';
-      reportData.arbitrData.message1 = message;
+      let message = 'Внимание! Данная компания выступает в роли Истца в более 75% дел';
+      reportData.arbitrData.messageOne = message;
       arbitrMessages[1] = message;
     }
 
@@ -306,27 +306,27 @@ class ResearchScreen extends React.Component{
       reportData.arbitrData.thirdPartyAmount = thirdPartyAmount;
     }
 
-    if(defendantAmount/profit > 0.5 && defendantAmount/profit <= 0.7){
-      console.log(323, defendantAmount/profit);
+    if(defendantAmount/balance > 0.5 && defendantAmount/balance < 0.75){
+      console.log(323, defendantAmount/balance);
       console.log(324,"TOO MUCH MONEY FOR DEFENDANT 50%");
       arbitrColor = '#FE934B'; 
 
-      let message = 'Внимание! Сумма потенциальных взысканий по активным искам составляет более 50% от прибыли компании';
+      let message = 'Внимание! Сумма потенциальных взысканий по активным искам составляет более 50% от средств компании';
       reportData.arbitrData.reliability = '#FE934B';
-      reportData.arbitrData.message2 = message;
+      reportData.arbitrData.messageTwo = message;
 
       arbitrMessages[0] = message;
     }
 
-    if(defendantAmount/profit >= 0.7){
-      console.log(330, defendantAmount/profit);
+    if(defendantAmount/balance >= 0.75){
+      console.log(330, defendantAmount/balance);
       console.log(331,"TOO MUCH MONEY FOR DEFENDANT 70%");
 
       arbitrColor = '#FF5656'; 
 
-      let message = 'Внимание! Сумма потенциальных взысканий по активным искам составляет более 70% от прибыли компании';
+      let message = 'Внимание! Сумма потенциальных взысканий по активным искам составляет более 75% от средств компании';
       reportData.arbitrData.reliability = '#FF5656';
-      reportData.arbitrData.message2 = message;
+      reportData.arbitrData.messageTwo = message;
 
       arbitrMessages[0] = message;
     }
@@ -364,12 +364,12 @@ class ResearchScreen extends React.Component{
       }
     }
    
-    if(remainingCredit/profit >= 0.65){
-      console.log(370,remainingCredit/profit + "\n");
+    if(remainingCredit/balance >= 0.65){
+      console.log(370,remainingCredit/balance + "\n");
       nalogColor = '#FE934B';
 
       reportData.nalogData.reliability = '#FE934B';
-      let message = 'Сумма неуплаченной задолженности составляет более 65% от прибыли компании';
+      let message = 'Внимание! Сумма непогашенной задолженности составляет более 65% от средств компании';
       reportData.nalogData.message = message;
       nalogMessage = message;
     }
@@ -424,7 +424,9 @@ class ResearchScreen extends React.Component{
       reportData.bookkeepingData.message = 'Один или несколько показателей понизились на 25% по сравнению с предыдущим годом';
     }
 
+    console.log(428, profit);
     if(profit < 0){
+      
       bookkeepingColor = '#FE934B';
       reportData.bookkeepingData.reliability = '#FE934B';
     }

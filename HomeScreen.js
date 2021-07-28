@@ -53,7 +53,7 @@ class HomeScreen extends React.Component {
       this.setState({error: 'NullPointException'});
     }
   } catch(e) {
-    this.setState({error: 'Запрос обломился'})
+    this.setState({error: 'Запрос не удался'})
   }
   
  
@@ -62,6 +62,7 @@ class HomeScreen extends React.Component {
   render() {
     //On button press load data from website and pass values to next screen
     const {error, INN} = this.state;
+
     return (
       <SafeAreaView style={styles.background}>
         <ImageBackground style={ styles.imgBackground } source={require('./components/background1.png')}>

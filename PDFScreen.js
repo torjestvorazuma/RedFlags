@@ -68,9 +68,9 @@ class PDFScreen extends React.Component {
       
         <Text>Cтатус: ${reportData.generalData.status.value}<Text style="color: ${reportData.generalData.status.reliability}">●\n</Text></Text>
         <br>
-        <Text>Дата регистрации: ${reportData.generalData.date.value}\n<Text style="color: ${reportData.generalData.date.reliability}">●\n</Text></Text>
-        <br>
-        <Text>${reportData.generalData.date.message}\n</Text>
+        <Text>Дата регистрации: ${reportData.generalData.date.value}\n</Text>
+        
+        
         <br>
         <Text>ИНН: ${reportData.generalData.inn}\n</Text><br>
         <Text>ОГРН: ${reportData.generalData.ogrn}\n</Text><br>

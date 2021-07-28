@@ -25,9 +25,9 @@ class ReferenceScreen extends React.Component {
         <Image style={styles.headerimagine} source={require('./components/green.png')}/>
         <Text style={styles.head}>Справочная информация</Text>
         </View>
-        <Text style={styles.headcomment}>Оценка организации носит информационный характер. Данные из источников обновляются ежедневно.</Text>
+        <Text style={styles.headcomment}>Представленные в приложении данные носят информационный характер и обновляются ежедневно.</Text>
         <ScrollView>
-        <Text style={styles.headR}>Критерии оценки{'\n'}</Text>
+        <Text style={styles.headR}>Критерии благонадёжности{'\n'}</Text>
         <Text style={styles.headtype}>Общая информация{'\n'}</Text> 
         <Text style={styles.headtext}>Статус организации{'\n'}</Text>
         <Text style={styles.usualtext}>Позволяет отследить изменения статуса организации:</Text>
@@ -105,6 +105,9 @@ class ReferenceScreen extends React.Component {
         <Text style={styles.headtext}>Дела в качестве ответчика</Text>
         <Text  style={styles.arbitr}>(находящиеся в производстве){'\n'}</Text>
         <Text style={styles.usualtext}>Множество исков к компании как к ответчику может говорить о постоянном нарушении обязательств перед контрагентами. Если общая сумма исков составляет 50-70% (оранжевый индикатор), 70% и выше (красный индикатор) от всех имеющихся средств организации, то компания с большей вероятностью не сможет в полной мере и в срок рассчитаться по своим обязательствам.{'\n'}</Text>
+
+        <Text style={styles.headtype}>Актуальность данных{'\n'}</Text> 
+        <Text style={styles.usualtext}>Данные предоставлены DaMIA-API. DaMIA-API гарантирует актуальность данных на 0:00 МСК текущей даты.{'\n'}</Text>
         </ScrollView>
       </SafeAreaView>
     );

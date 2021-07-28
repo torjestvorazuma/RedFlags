@@ -144,7 +144,7 @@ class NalogScreen extends React.Component {
           if(ListData[item]['Статус'] == 'Не завершено')
           return(
             <View key = {i}>
-              <Text style = {styles.item}>{item} {'\n'}Дата: {ListData[item]['Дата']}{'\n'}Статус: {ListData[item]['Статус']} {'\n'}Предмет: {ListData[item]['Предмет']} {'\n'}Сумма: {ListData[item]['Сумма']}</Text>
+              <Text style = {styles.item}>{item} {'\n'}Дата: {ListData[item]['Дата']}{'\n'}Статус: {ListData[item]['Статус']} {'\n'}Предмет: {ListData[item]['Предмет']} {'\n'}Сумма: {ListData[item]['Сумма']}₽</Text>
             </View>
           )
         })
