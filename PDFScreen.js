@@ -12,7 +12,12 @@ import * as MediaLibrary from "expo-media-library";
 import * as Sharing from "expo-sharing";
 
 
+
+
+
 const Stack = createStackNavigator();
+
+
 import Header from './components/Header';
 import HomeScreen from './HomeScreen';
 
@@ -38,7 +43,7 @@ class PDFScreen extends React.Component {
     const score = this.state.score;
     const {inn, reportData} = this.props.route.params;
     InNumber = inn;
-
+    let today = new Date();
     
 
     let htmlContent = `
@@ -64,6 +69,7 @@ class PDFScreen extends React.Component {
     <body>
         <section>
         <h1>${reportData.generalData.name}</h1>
+        <p>Отчёт сформирован ${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}</p>
         <h2>Общая информация</h2>
       
         <Text>Cтатус: ${reportData.generalData.status.value}<Text style="color: ${reportData.generalData.status.reliability}">●\n</Text></Text>
@@ -92,7 +98,7 @@ class PDFScreen extends React.Component {
         <Text>Данные за 2020 год:\n</Text><br>
         <Text>Баланс: ${reportData.bookkeepingData.balance}₽\n</Text><br>
         <Text>Выручка: ${reportData.bookkeepingData.revenue}₽\n</Text><br>
-        <Text>Прибыль: ${reportData.bookkeepingData.profit}₽\n</Text><br>
+        <Text>Прибыль: ${reportData.bookkeepingData.profit}₽\n</Text><br><br>
         </section>
         <section>
         <h3 style="background-color: ${reportData.nalogData.reliability}">Задолженности</h3>
