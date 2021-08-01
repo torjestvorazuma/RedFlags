@@ -25,20 +25,21 @@ class CourtsScreen extends React.Component {
     const {inn, arbitrData, arbitrMessages} = this.props.route.params;
 
     console.log(56, arbitrData);
+    // data of the company's roles in court
     let plaintiffData = arbitrData.result.Истец;
     let defendantData = arbitrData.result.Ответчик;
     let thirdPartyData = arbitrData.result.ИноеЛицо;
-    
+    // numbers of cases in court
     let plaintiffCount = this.getPlaintiffCount(plaintiffData);
     let defendantCount = this.getDefendantCount(defendantData);
     let thirdPartyCount = this.getThirdPartyCount(thirdPartyData);
-
+    // amounts of cases
     let plaintiffAmount = this.getPlaintiffAmount(plaintiffData);
     let defendantAmount = this.getDefendantAmount(defendantData);
     let thirdPartyAmount = this.getThirdPartyAmount(thirdPartyData);
 
    
-
+    // interface
     return (
       <SafeAreaView style = {styles.container}>
         <Text style={styles.headName}>СУДЕБНАЯ НАГРУЗКА</Text> 
@@ -79,7 +80,8 @@ class CourtsScreen extends React.Component {
       
     );
   }
-
+ 
+  // function is used to count the number of all cases 
   getPlaintiffCount(plaintiffData = {}){
     let count = 0;
 
@@ -92,7 +94,8 @@ class CourtsScreen extends React.Component {
     }
     return count;
   }
-
+  
+  // function is used to count the number of cases that are not completed
   getDefendantCount(defendantData = {}){
     let count = 0;
   
@@ -112,6 +115,7 @@ class CourtsScreen extends React.Component {
     return count;
   }
 
+  // function is used to count the number of cases that are not completed
   getThirdPartyCount(thirdPartyData = {}){
     let count = 0;
     
@@ -129,7 +133,8 @@ class CourtsScreen extends React.Component {
     }
     return count;
   }
-
+  
+  // function is used to count the amount of all cases 
   getPlaintiffAmount(plaintiffData = {}){
     let amount = 0;
     
@@ -142,10 +147,9 @@ class CourtsScreen extends React.Component {
     return amount;
 
   }
- //7721503606
+  // function is used to amount the number of cases that are not completed
   getDefendantAmount(defendantData = {}){
     let amount = 0;
-    //let defendantData = arbitrData.result.Ответчик;
     if(defendantData){
       for(let i = 0; i < Object.keys(defendantData).length; i++){
         let status = defendantData[Object.keys(defendantData)[i]].Статус.valueOf();
@@ -167,7 +171,7 @@ class CourtsScreen extends React.Component {
   }
 
   
-
+ // function is used to count the amount of cases that are not completed
   getThirdPartyAmount(thirdPartyData = {}){
     let amount = 0;
     
@@ -187,7 +191,8 @@ class CourtsScreen extends React.Component {
 
     return amount;
   }
-
+// function is used to show a list of all cases 
+// if you click on the case, you will go to the kad.arbitr
   displayPlaintiffData(plaintiffData = {}){
     if(plaintiffData){
       return(
@@ -206,7 +211,9 @@ class CourtsScreen extends React.Component {
       )
     }
   }
-
+ 
+  // function is used to show a list of cases that are not completed
+  // if you click on the case, you will go to the kad.arbitr
   displayDefendantData(defendantData = {}){
     if(defendantData){
       return(
@@ -229,7 +236,8 @@ class CourtsScreen extends React.Component {
       )
     }
   }
-
+ // function is used to show a list of cases that are not completed
+ // if you click on the case, you will go to the kad.arbitr
   displayThirdPartyData(thirdPartyData = {}){
     if(thirdPartyData){
       return(
@@ -266,7 +274,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    //paddingHorizontal: 20,
     backgroundColor: '#F8F8FF', 
   },
 
