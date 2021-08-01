@@ -9,8 +9,7 @@ const API_FSSP_KEY = '4388cb56e97b4f5e5fc62bb3bf793ee03cf54b67';
 let finalDataJSON;
 let finalAdressDataJSON;
 let finalFSSPDataJSON;
-//INN EXAMPLE: 8602302853
-//7605016030
+
 class HomeScreen extends React.Component {
 
   constructor(props){
@@ -35,10 +34,15 @@ class HomeScreen extends React.Component {
 
   onPress = async () => {
     try {
+    // get information from api fns
     const finalDataJSON = await this.gettingInformationCompany();
+    // get information from api fns
     const finalAdressDataJSON = await this.gettingInformationAboutAdress();
+    // get information from api kad.arbitr
     const finalArbitrDataJSON = await this.gettingInformationAboutArbitr();
+    // get information from api fssp
     const finalFSSPDataJSON = await this.gettingInformationAboutFSSP();
+    // get information from api fns
     const bookkeepingData = await this.gettingBookkeepingData();
     if (finalDataJSON) {
       this.props.navigation.navigate("Research",{
@@ -60,9 +64,10 @@ class HomeScreen extends React.Component {
 };
 
   render() {
-    //On button press load data from website and pass values to next screen
     const {error, INN} = this.state;
-
+    // interface
+    // On button press load data from website and pass values to next screen
+    // User can use only INN to search for company information
     return (
       <SafeAreaView style={styles.background}>
         <ImageBackground style={ styles.imgBackground } source={require('./components/background1.png')}>
@@ -76,6 +81,8 @@ class HomeScreen extends React.Component {
     );
   }
 
+  // fetch() method is used to request to the server and load the information
+  // the return data is of the format JSON
   gettingInformationCompany = async () => {
     const api_url = await fetch(`https://api-fns.ru/api/egr?req=${this.state.INN}&key=${API_FNS_KEY}`);
     const finalDataJSON = await api_url.json();
@@ -140,7 +147,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 2,
     height: '4%',
-    backgroundColor: '#77dd77'//'#ceffbc'
+    backgroundColor: '#77dd77'
   },
   text: {
     fontSize: 25,
