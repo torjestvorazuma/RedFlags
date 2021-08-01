@@ -12,8 +12,6 @@ import HomeScreen from './HomeScreen';
 
 let InNumber;
 
-//<Text style = {styles.head}>Сумма "Задолженность":  {NalogDebt}₽</Text>
-//<Text style = {styles.head}>Сумма "Взыскание налогов и сборов, включая пени":  {NalogNalog}₽</Text>
 class NalogScreen extends React.Component {
   
   state = {
@@ -25,21 +23,18 @@ class NalogScreen extends React.Component {
 
     const score = this.state.score;
     const {inn, FSSPData, nalogMessage} = this.props.route.params;
-
+    
+    // inn number of company
     InNumber = inn;
     const num = InNumber;
-
+    
     let ListData = FSSPData[`${InNumber}`];
     
-    
+    // number of enforcement proceedings
     let NalogCount = this.getNalogCount(FSSPData);
-    let NalogAmount = this.getNalogAmount(FSSPData);
+    // amount of enforcement proceedings
     let NalogBalance = this.getNalogBalance(FSSPData);
-    let NalogDebt = this.getNalogDebt(FSSPData);
-    let NalogNalog = this.getNalog(FSSPData);
 
-       //<Text>Количество исполнительных производств:        {NalogCount} </Text>
-        //<Text>Общая сумма задолженности (в рублях):         {NalogAmount} </Text>
     return (
       <SafeAreaView style = {styles.container}>
         <Text style={styles.headName}>ЗАДОЛЖЕННОСТИ</Text> 
@@ -65,6 +60,7 @@ class NalogScreen extends React.Component {
     );
   }
 
+  // function to calculate number of enforcement proceedings
   getNalogCount =  (FSSPData) => {
     let count = 0;
     for (let key in  FSSPData[`${InNumber}`]){
@@ -74,24 +70,7 @@ class NalogScreen extends React.Component {
     } 
     return count;
   }
-
-  getNalogAmount  = (FSSPData) => {
-    let amount = 0;
-    for (let key in  FSSPData[`${InNumber}`]) {
-      //console.log( FSSPData[`${InNumber}`][key]['Сумма']);
-      if (FSSPData[`${InNumber}`][key]['Статус'] == 'Не завершено' ){
-      amount = amount +  FSSPData[`${InNumber}`][key]['Сумма'];
-      }
-    }
-  
-  //console.log('итог');
-  //console.log(amount);
-  
-  amount = Number((amount).toFixed(2));
-  
-  return amount;
-  }
-  
+  // function to calculate amount of enforcement proceedings
   getNalogBalance = (FSSPData) => {
     let remains = 0;
     for (let key in  FSSPData[`${InNumber}`]) {
@@ -100,44 +79,14 @@ class NalogScreen extends React.Component {
         remains = remains +  FSSPData[`${InNumber}`][key]['Остаток'];
       }
     }
-  
-  //console.log('Остаток');
-  //console.log(remains); 
-  
+   
   remains = Number((remains).toFixed(2));
 
   return remains;
   }
  
-  getNalog = (FSSPData) => {
-    let nalog = 0;
-    for (let key in  FSSPData[`${InNumber}`]) {
-      if (FSSPData[`${InNumber}`][key]['Предмет'] == 'Взыскание налогов и сборов, включая пени' ){
-      nalog = nalog +  FSSPData[`${InNumber}`][key]['Сумма'];
-      }
-    }
-  //console.log(nalog); 
-  
-  nalog = Number((nalog).toFixed(2));
-
-  return nalog;
-  }
-
-  getNalogDebt = (FSSPData) => {
-    let debt = 0;
-    for (let key in  FSSPData[`${InNumber}`]) {
-      if (FSSPData[`${InNumber}`][key]['Предмет'] == 'Задолженность' ){
-        debt = debt +  FSSPData[`${InNumber}`][key]['Сумма'];
-      }
-    }
-  //console.log(debt); 
-  
-  debt = Number((debt).toFixed(2));
-
-  return debt;
-  }
- 
-  displayFSSPData = (ListData) => {
+ // function to output a list of enforcement proceedings
+ displayFSSPData = (ListData) => {
     if(ListData){
       return(
         Object.keys(ListData).map((item,i) => {
@@ -172,9 +121,6 @@ const styles = StyleSheet.create({
     marginHorizontal: '5%',
     textAlign: 'left',
     fontWeight: 'bold',
-    color: 'grey',
-    //height: '10%',
-    //width: '70%',
   },
   delaContainer: {
     fontSize: 15,
@@ -210,8 +156,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    //paddingTop: 5,
-    //paddingHorizontal: 5,
     backgroundColor: '#F8F8FF'
   },
   headName: {
