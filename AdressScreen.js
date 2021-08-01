@@ -18,10 +18,14 @@ class AdressScreen extends React.Component {
 
   render() {
     const { inn, finalData, adressData } = this.props.route.params;
+    // array of companies with the same address
     const adresses = [];
+    //push all found companies into an array
     adressData.items.forEach(function(obj) {adresses.push(obj.ЮЛ.НаимСокрЮЛ)})
+    // number of companies with the same address
     count = adressData.Count;
     
+    //interface
     return (
    
       
@@ -44,7 +48,8 @@ class AdressScreen extends React.Component {
       </SafeAreaView>
     );
   }
-  
+  // fetch() method is used to request to the server and load the information
+  // the return data is of the format JSON
   gettingInformationAboutAdress = async () => {
     const api_url = await fetch(`https://api-fns.ru/api/egr?req=${finalData.items[0].ЮЛ.Адрес.АдресПолн}&key=${API_KEY}`);
     const DataJSON = await api_url.json();
@@ -56,7 +61,7 @@ class AdressScreen extends React.Component {
   loadAdresses(){
 
   }
-
+ // function is used to show a warning about company
   displaData = (count) => {
     if(count > 5){
       return(
@@ -73,10 +78,7 @@ class AdressScreen extends React.Component {
 
 const styles = StyleSheet.create({
 
-  container: {
-    //marginTop: '10%',
-    //flex: 1,
-    //paddingHorizontal: 20, 
+  container: { 
     backgroundColor: '#F3F4F6',
   },
 
