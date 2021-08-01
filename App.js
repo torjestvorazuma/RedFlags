@@ -21,6 +21,7 @@ import PDFScreen from './PDFScreen';
 
 class App extends React.Component {
   render() {
+    // Stack.Navigator provides a way for your app to transition between screens where each new screen is placed on top of a stack
     return (
       <NavigationContainer style = {styles.navigation}>
         <Stack.Navigator screenOptions={{headerShown: false}}>
