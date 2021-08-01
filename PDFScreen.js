@@ -11,41 +11,20 @@ import * as Print from "expo-print";
 import * as MediaLibrary from "expo-media-library";
 import * as Sharing from "expo-sharing";
 
-
-
-
-
 const Stack = createStackNavigator();
-
-
-import Header from './components/Header';
-import HomeScreen from './HomeScreen';
-
 
 const API_FNS_KEY = '5d1714f634e2768695e63f1423f9895569656403';
 let InNumber;
 
 
 
-
-
-
 class PDFScreen extends React.Component {
-  state = {
-    score: 80,
-    scoreColor: '#77dd77'
-  }
-  
-  
-
   render() {
-
-    const score = this.state.score;
     const {inn, reportData} = this.props.route.params;
     InNumber = inn;
     let today = new Date();
     
-
+    //HTML layout for pdf reporty
     let htmlContent = `
     <!DOCTYPE html>
     <html lang="en">
@@ -120,7 +99,7 @@ class PDFScreen extends React.Component {
 `;
     
     let defaultColorText = '#5961AB';
-
+      
     if(Platform.OS === "ios"){
       defaultColorText = '#fff';
     }
@@ -161,7 +140,6 @@ class PDFScreen extends React.Component {
       console.error(error);
     }
   };
-  
 }
 
 const styles = StyleSheet.create({
@@ -172,17 +150,6 @@ const styles = StyleSheet.create({
     height: '100%'
   },
 
-  //head: {
-  //  fontSize: 30,
-    //marginTop: '2%',
-  //  textAlign: 'center',
-    //fontWeight: 'bold',
-    //color: 'grey',
-   // paddingTop: '2%'
-  // width: '70%',
-  //    height: '4%'
- 
-  //},
   headName: {
     fontSize: 27,
     paddingTop: 10,
@@ -196,21 +163,14 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     fontWeight: 'bold',
     marginTop: '5%',
-
   },
   page: {
     flexDirection: "column"
   },
   imagine: {
-      //position: 'absolute',
-      //width: '50%',
-      //height: '50%',
-      //justifyContent: 'center',
-      //alignItems: 'center',
-      width: 425,
-      height: 150,
-      alignSelf:'center'
-    
+    width: 425,
+    height: 150,
+    alignSelf:'center'
   },
   centerImage: {
     alignItems: "center",
@@ -227,12 +187,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null,
-    //resizeMode: 'cover',
-    //justifyContent: "center",
-    //alignItems: "center",
-    //resizeMode: 'cover',
-    //top: 0,
-    //opacity: 0.7
   },
 
 });

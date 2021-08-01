@@ -1,28 +1,16 @@
 import 'react-native-gesture-handler';
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import { StyleSheet, View, Text, TextInput, Button, ScrollView, SafeAreaView, ImageBackground} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
-import Header from './components/Header';
-import HomeScreen from './HomeScreen';
 
 class BookkeepingScreen extends React.Component {
-  
-  state = {
-    score: 80,
-    scoreColor: '#77dd77'
-  }
-
-  
-  
 
   render() {
     const { inn, bookkeepingData } = this.props.route.params;
-    const score = this.state.score;
     
     let revenue = this.getRevenue(bookkeepingData, '2020');
     let profit = this.getProfit(bookkeepingData, '2020');
@@ -30,22 +18,24 @@ class BookkeepingScreen extends React.Component {
 
     let warningText = "";
 
+    //check growth compared to previous year
     if(revenue/this.getRevenue(bookkeepingData,'2019') < 0.75 || profit/this.getProfit(bookkeepingData,'2019') < 0.75 || balance/this.getBalance(bookkeepingData,'2019') < 0.75){
       warningText = "Один или несколько показателей понизились на более чем на 25% по сравнению с предыдущим годом";
     }
 
-    // "₽"
-
+    //adjust data to correct format for display
     let balanceString = balance * 1000 + "₽";
     let revenueString = revenue * 1000 + "₽";
     let profitString = profit * 1000 + "₽";
 
+    //chack if there is no data available
     if(bookkeepingData[`${inn}`].length == 0){
       revenueString = 'данные отсутсвуют';
       profitString = 'данные отсутсвуют';
       balanceString = 'данные отсутсвуют';
     }
 
+    //check if there is balance data available
     try{
       console.log(bookkeepingData[`${inn}`]['2020']['1600']);
     }
@@ -53,6 +43,7 @@ class BookkeepingScreen extends React.Component {
       balanceString = 'данные отсутсвуют';
     }
 
+    //check if there is revenue data available
     try{
       console.log(bookkeepingData[`${inn}`]['2020']['2110']);
     }
@@ -60,6 +51,7 @@ class BookkeepingScreen extends React.Component {
       revenueString = 'данные отсутсвуют';
     }
 
+    //check if there is profit data available
     try{
       console.log(bookkeepingData[`${inn}`]['2020']['2400']);
     }
@@ -67,7 +59,7 @@ class BookkeepingScreen extends React.Component {
       profitString = 'данные отсутсвуют';
     }
 
-    return (
+    return(
       <SafeAreaView style={styles.background}> 
       <ImageBackground  style={styles.imgBackground } source={require('./components/background.png')}>
         <Text style={styles.headName}>БУХГАЛТЕРИЯ</Text> 
@@ -88,7 +80,6 @@ class BookkeepingScreen extends React.Component {
     return 0;
   }
 
-
   getRevenue(bookkeepingData = {}, year = ''){
     if(bookkeepingData[`${Object.keys(bookkeepingData)[0]}`][year]){
       return bookkeepingData[`${Object.keys(bookkeepingData)[0]}`][year]['2110'];
@@ -103,27 +94,6 @@ class BookkeepingScreen extends React.Component {
     console.log(32323232, bookkeepingData[`${Object.keys(bookkeepingData)[0]}`][year]['2400']);
     return 0;
   }
-
-  /*displayBookkepingData(bookkeepingData = {}){
-    if(bookkeepingData){
-      return(
-        Object.keys(bookkeepingData).map((item,i) => {
-          return(
-            <View key = {i}>
-              <Text style = {styles.item}>{item}</Text>
-            </View>
-          )
-        })
-      )
-    }
-    else{
-      return(
-        <Text style>Дела отсутсвуют</Text>
-      )
-    }
-  }*/
-
-
 }
 
 const styles = StyleSheet.create({
@@ -140,12 +110,8 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   container: {
-    //marginTop: '10%',
-    //flex: 1,
-    //paddingHorizontal: 20,
     backgroundColor: '#F3F4F6',
   },
-
   head: {
     fontSize: 30,
     marginTop: '10%',
@@ -172,8 +138,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null,
-
   }
-
 });
 export default BookkeepingScreen;
